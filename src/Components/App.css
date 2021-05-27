@@ -1,0 +1,9 @@
+#mainScreen {
+    align-items: center;
+    
+    margin: 3rem
+}
+
+#notRegistered {
+    text-align: right;
+}
