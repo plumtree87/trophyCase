@@ -5,5 +5,13 @@
 }
 
 #notRegistered {
-    text-align: right;
+    margin-left: 2rem;
+}
+
+#trophyCase {
+    margin-top: 2rem;
+}
+
+#test {
+    font-size: 4vw;
 }

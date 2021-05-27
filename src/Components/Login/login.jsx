@@ -9,9 +9,11 @@ const Login = (props) => {
    const [userName, setUserName] = useState('');
    const [passWord, setPassWord] = useState('');
    const [register, setRegister] = useState(false); // this decides which form to dispay, register true? false is login form. 
+   const [isOpen, setIsOpen] = useState(true)
 
    useEffect(() =>{
        console.log('Use Effect running')
+      
    });
 
    /// form handlers between these comments below///
@@ -35,9 +37,11 @@ const Login = (props) => {
 
    function switchFromLoginToRegister(){
         if (register === false){
+            if(isOpen === true){
             return (       <Grid>
-             
+            
                 <form>
+            
                     <ThemeProvider>
                         <TextField
                             label="User Name"
@@ -60,7 +64,7 @@ const Login = (props) => {
                
                 </Grid>
         )
-        }
+        }}
         if (register === true){
             return <Register registerUser={props.registerUser.bind(this)} />
         }

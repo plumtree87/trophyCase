@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Grid, Button } from '@material-ui/core';
 import Login from './Login/login';
 import Register from './Login/register';
+import TopDisplayCase from './Trophies/topTrophies'
 
 
 
@@ -12,10 +13,13 @@ class App extends Component {
         component: '',
         users: [],
         currentUser: '',
+        isOpen: false,
+
 
     }
     componentDidMount(){
         this.getUsers();
+        console.log(this.state.isOpen)
         
     }
     // >>>>>>>>>>>>>>>>>>>>>>>>    all axios requests between these comments    <<<<<<<<<<<<<<<<<   ///
@@ -40,30 +44,35 @@ class App extends Component {
     // <<<<<<<<<<<<<<<<<<<<<<<<<    all axios requests between these comments   >>>>>>>>>>>>>>>>>/// 
 
 
- /// displayWindow() //
+ /// displayWindow() //  also close window ///
+
 
     displayWindow(e){
         if (this.state.component == 'login'){
-            return <Login registerUser={this.postUser.bind(this)}
+            return <Login registerUser={this.postUser.bind(this)} />
                         
 
-                    />
+                   
         }
         if (this.state.component == 'register'){
-            return <Register registerUser={this.postUser.bind(this)} />
+            return <Register  />
         }
     }
 
- /// END OF displayWindow() ///
+ /// END OF displayWindow() /// close window also.. //
     
     render() { 
         return (
             <div>
-            <div><button onClick={() => this.setState({component: 'login'})}> login </button></div>
+            <div><button onClick={() => this.state.isOpen ? this.setState({component: 'login', isOpen: !this.state.isOpen}) : this.setState({component: '', isOpen: !this.state.isOpen})}> login </button></div>
            <Grid id="mainScreen" >
           
              {this.displayWindow()}
+
            </Grid>
+           <Grid id="test">
+                <TopDisplayCase />
+             </Grid>
            </div>
 
          );

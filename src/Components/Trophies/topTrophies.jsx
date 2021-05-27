@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Card } from 'react-bootstrap';
-import ModalButton from '../CreateFlashCard/modalButton'
+import { Grid, Button, ButtonGroup } from '@material-ui/core';
+import DisplayDucks from './GameCategories/ducks';
+import DisplayDeer from './GameCategories/deer';
+import DisplayBass from './GameCategories/bass';
 
 
-const Flash = (props) => {
 
-   const [isFront, setSide] = useState(false);
+const TopDisplayCase = (props) => {
+
+   const [game, setGame] = useState('duck');
 
 
    useEffect(() =>{
@@ -13,41 +16,37 @@ const Flash = (props) => {
    });
 
 
-   function callTwoFunctions(){
-       setSide(!isFront)
-    //    if(isFront === true){
-    //        document.getElementById('flashCard').style.backgroundColor = 'yellow';
-    //    }
-    //    if(isFront === false){
-    //        document.getElementById('flashCard').style.backgroundColor = 'brown';
-    //    }
-    // meh, this didn't work..
-    }
+   function selectShowingCase(){
+       if (game === 'duck'){
+           return <DisplayDucks />
+       }
+       if (game === 'deer'){
+           return <DisplayDeer />
+       }
+       if(game === 'bass'){
+           return <DisplayBass />
+       }
 
-    return (
-       
-        <Card id='flashCard' onClick={() => callTwoFunctions()}>
-     
+    }
    
-       
-       <div id='cardCounter'>{props.countCards}</div>
-     
-      
-     
-    
-        
-        <div>
-        <button>Edit</button>
-        </div>
-        <div>
-            
-            <button>Delete</button>
-        </div>
-        </Card>
-      
-  
+    return (
+        <center>
+        <Grid id="trophyCase">
+            <header><u>Trophy Case</u></header>
+            <div> 
+                <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
+                    <Button style={{fontSize: "3vw"}}  onClick={() => setGame('duck')}>Duck</Button>
+                    <Button style={{fontSize: "3vw"}} onClick={() => setGame('deer')}>Deer</Button>
+                    <Button style={{fontSize: "3vw"}} onClick={() => setGame('bass')}>Bass</Button>
+                </ButtonGroup>
+
+                {selectShowingCase()}
+            </div>
+               
+        </Grid>
+        </center>
 
     );
 }
 
-export default Flash;
+export default TopDisplayCase;
