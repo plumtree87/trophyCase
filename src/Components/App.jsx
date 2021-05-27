@@ -14,6 +14,7 @@ class App extends Component {
         users: [],
         currentUser: '',
         isOpen: false,
+        ducks: [],
 
 
     }
@@ -23,7 +24,14 @@ class App extends Component {
         
     }
     // >>>>>>>>>>>>>>>>>>>>>>>>    all axios requests between these comments    <<<<<<<<<<<<<<<<<   ///
-    async getUsers(e){
+
+
+    sortWeightDescending(data){
+        data.weight.sort(function(a, b){return b-a});
+    }
+
+    // USER            USER             USER            USER            USER
+    async getTopUsers(e){
         let response = await axios.get('http://127.0.0.1:8000/user/')
         this.setState({
             users: response.data
@@ -31,10 +39,27 @@ class App extends Component {
         console.log(response.data)
     }
 
+
+
     async postUser(data){
         console.log(data)
         let response = await axios.post('http://127.0.0.1:8000/user/', data)
         console.log(response.data)
+    }
+    //DUCKS       DUCKS         DUCKS       DUCKS       DUCKS          DUCKS 
+    async getTopDucks(){
+        let response = await axios.get('http://127.0.0.1:8000/ducks/')
+        let descendingOrder = this.sortDescending(response.data)
+        descendingOrder.length=5;            // set to 5 for testing, ultimately will set to show top 100.
+        this.setState({
+            ducks: descendingOrder
+        })
+
+
+    }
+
+    async postDucks(data){
+        let response = await axios.post('http://127.0.0.1:8000/ducks/', data)
     }
 
     
