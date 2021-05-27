@@ -19,10 +19,10 @@ const DisplayBigRackLittleBuck = (props) => {
 
     return (
         
-       <h1> This game is not paid out every season, but only once you beat the last best set record. This allows the pool of rewards to increase
+       <h5> This game is not paid out every season, but only once you beat the last best set record. This allows the pool of rewards to increase
             every season, until the last record is beat. This creates a very large pool, eventually. Ths reward goes to the person who catches the
             buck with with the most points on his rack, and the least amount of weight.
-       </h1>
+       </h5>
 
     );
 }

@@ -31,7 +31,7 @@ class App extends Component {
     }
 
     // USER            USER             USER            USER            USER
-    async getTopUsers(e){
+    async getUsers(e){
         let response = await axios.get('http://127.0.0.1:8000/user/')
         this.setState({
             users: response.data

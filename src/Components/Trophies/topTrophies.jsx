@@ -3,6 +3,9 @@ import { Grid, Button, ButtonGroup } from '@material-ui/core';
 import DisplayDucks from './GameCategories/ducks';
 import DisplayDeer from './GameCategories/deer';
 import DisplayBass from './GameCategories/bass';
+import DisplayBigMama from './GameCategories/bigMama';
+import DisplayBigRackLittleBuck from './GameCategories/bigRackLittleBuck';
+import DisplayLittleBigFoot from './GameCategories/littleBigFoot';
 
 
 
@@ -26,6 +29,16 @@ const TopDisplayCase = (props) => {
        if(game === 'bass'){
            return <DisplayBass />
        }
+       if(game === 'bigMama'){
+           return <DisplayBigMama />
+       }
+       if(game === 'bigRackLittleBuck'){
+           return <DisplayBigRackLittleBuck />
+       }
+       if(game === 'littleBigFoot'){
+           return <DisplayLittleBigFoot />
+       }
+       
 
     }
    
@@ -40,7 +53,7 @@ const TopDisplayCase = (props) => {
                     <Button style={{fontSize: "3vw"}} onClick={() => setGame('bass')}>Bass</Button>
                 </ButtonGroup>
                 <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
-                    <Button style={{fontSize: "3vw"}}  onClick={() => setGame('bigMama')}>Big Mama</Button>
+                    <Button style={{fontSize: "3vw"}}  onClick={() => setGame('bigMama')}>The Big Momma</Button>
                     <Button style={{fontSize: "3vw"}} onClick={() => setGame('bigRackLittleBuck')}>BIG RACK, little buck</Button>
                     <Button style={{fontSize: "3vw"}} onClick={() => setGame('littleBigFoot')}>little Big Foot</Button>
                 </ButtonGroup>
