@@ -7,11 +7,11 @@ import DisplayBigMama from './GameCategories/bigMama';
 import DisplayBigRackLittleBuck from './GameCategories/bigRackLittleBuck';
 import DisplayLittleBigFoot from './GameCategories/littleBigFoot';
 
-
+// this component passes most of it's own props down to children, categories of itself.
 
 const TopDisplayCase = (props) => {
 
-   const [game, setGame] = useState('duck');
+   const [game, setGame] = useState('');
 
 
    useEffect(() =>{
@@ -21,16 +21,16 @@ const TopDisplayCase = (props) => {
 
    function selectShowingCase(){
        if (game === 'duck'){
-           return <DisplayDucks />
+           return props.trophyDucks.map(ducks => <DisplayDucks topDucks={ducks} />)
        }
        if (game === 'deer'){
-           return <DisplayDeer />
+           return props.trophyBucks.map(bucks => <DisplayDeer topBucks={bucks}/>)
        }
        if(game === 'bass'){
-           return <DisplayBass />
+           return props.trophyBass.map(bass => <DisplayBass topBass={bass} />)
        }
        if(game === 'bigMama'){
-           return <DisplayBigMama />
+           return props.trophyMama.map(bigMama => <DisplayBigMama trophyMama={bigMama} />)
        }
        if(game === 'bigRackLittleBuck'){
            return <DisplayBigRackLittleBuck />
@@ -45,17 +45,17 @@ const TopDisplayCase = (props) => {
     return (
         <center>
         <Grid id="trophyCase">
-            <header><u>Trophy Case</u></header>
-            <div> 
+            <header style={{marginBottom: "1rem"}}><u style={{color: "gold"}}>Trophy Case</u></header>
+            <div id="buttonGroup"> 
                 <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
-                    <Button style={{fontSize: "3vw"}}  onClick={() => setGame('duck')}>Duck</Button>
-                    <Button style={{fontSize: "3vw"}} onClick={() => setGame('deer')}>Deer</Button>
-                    <Button style={{fontSize: "3vw"}} onClick={() => setGame('bass')}>Bass</Button>
+                    <Button style={{fontSize: "3vw", color: "gold"}}  onClick={() => setGame('duck')}>Duck</Button>
+                    <Button style={{fontSize: "3vw", color: "gold"}} onClick={() => setGame('deer')}>Deer</Button>
+                    <Button style={{fontSize: "3vw", color: "gold"}} onClick={() => setGame('bass')}>Bass</Button>
                 </ButtonGroup>
                 <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
-                    <Button style={{fontSize: "3vw"}}  onClick={() => setGame('bigMama')}>The Big Momma</Button>
-                    <Button style={{fontSize: "3vw"}} onClick={() => setGame('bigRackLittleBuck')}>BIG RACK, little buck</Button>
-                    <Button style={{fontSize: "3vw"}} onClick={() => setGame('littleBigFoot')}>little Big Foot</Button>
+                    <Button style={{fontSize: "3vw", color: "gold"}}  onClick={() => setGame('bigMama')}>The Big Momma</Button>
+                    <Button style={{fontSize: "3vw", color: "gold"}} onClick={() => setGame('bigRackLittleBuck')}>BIG RACK, little buck</Button>
+                    <Button style={{fontSize: "3vw", color: "gold"}} onClick={() => setGame('littleBigFoot')}>little Big Foot</Button>
                 </ButtonGroup>
 
 

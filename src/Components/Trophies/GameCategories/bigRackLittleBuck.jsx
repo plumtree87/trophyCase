@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Button } from '@material-ui/core';
-
+// the props for this component are passed in from main app into <TopDisplayCase />, and from topTrophies.jsx to here.  
 
 const DisplayBigRackLittleBuck = (props) => {
 
@@ -19,9 +19,12 @@ const DisplayBigRackLittleBuck = (props) => {
 
     return (
         
-       <h5> This game is not paid out every season, but only once you beat the last best set record. This allows the pool of rewards to increase
-            every season, until the last record is beat. This creates a very large pool, eventually. Ths reward goes to the person who catches the
-            buck with with the most points on his rack, and the least amount of weight.
+       <h5> 
+       This is a special game, just like Big Mama. Winner is only paid if they beat the last highest set record. 
+
+       This game goes to the winner who catches the buck with the most points on his rack, that weighs the least. 
+
+       That's why it's called, "Big Rack, little buck."
        </h5>
 
     );

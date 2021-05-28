@@ -10,6 +10,8 @@
 
 #trophyCase {
     margin-top: 2rem;
+    color: gold;
+    
 }
 
 #test {
@@ -19,4 +21,41 @@
 :is(h1, h2, h3, h4, h5, h6) {
     margin: 2rem;
     font-size: 5vw;
+}
+
+#topTrophies {
+    width: 75%;
+    height: auto;
+    margin: 2rem;
+    
+}
+
+#topTrophiesCard {
+    background-image: linear-gradient(to bottom, #336720, #40621c, #4a5e1a, #52591b, #57551d, #564b1c, #54421c, #4f3a1d, #422b1a, #321e17, #201311, #0b0303);
+    cursor: pointer;
+}
+
+#topTrophiesDetailsCard {
+    background-image: linear-gradient(to right bottom, #151c13, #1f2718, #2c331c, #3b3e20, #4c4924, #565223, #605c22, #6a6620, #67721a, #5e8017, #4e8d1c, #2d9b28);
+    color: white;
+}
+
+#topTrophiesCardBack {
+    background-image: linear-gradient(to top, #073705, #282600, #2a1700, #1e0b05, #000000);
+    height: 400px;
+    width: 100%;
+    color: white;
+    font-size: medium;
+    cursor: pointer;
+    
+}
+
+
+
+#backgroundDiv {
+    background-image: radial-gradient(circle, #0e7328, #286b21, #33621c, #3a5a1a, #3e5219, #354a1b, #2d431d, #263b1d, #18301d, #0e251b, #081a16, #010d0c);
+}
+
+#buttonGroup {
+    color: gold;
 }

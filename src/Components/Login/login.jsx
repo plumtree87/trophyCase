@@ -38,11 +38,11 @@ const Login = (props) => {
    function switchFromLoginToRegister(){
         if (register === false){
             if(isOpen === true){
-            return (       <Grid>
+            return (       <Grid style={{backgroundColor: "gold", width: "250px"}}>
             
-                <form>
+                <form >
             
-                    <ThemeProvider>
+                    <ThemeProvider >
                         <TextField
                             label="User Name"
                             variant="outlined"

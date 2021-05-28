@@ -43,7 +43,7 @@ class Register extends Component {
 
     render(){
         return (
-            <Grid>
+            <Grid style={{backgroundColor: "gold", width: "250px"}}>
             <form onSubmit={this.handleSubmit}>
                 <ThemeProvider>
                 <TextField
