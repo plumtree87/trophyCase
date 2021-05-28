@@ -55,7 +55,7 @@ const DisplayBigMama = (props) => {
 
         <ReactCardFlip isFlipped={isFront} flipDirection='vertical'>
       <Card id="topTrophiesCard" onClick={handleClick}>
-           {detailSide ? <img id="topTrophies" src={"http://127.0.0.1:8000"+props.trophyMama.image}></img> : <b><p style={{height: "400px", width: "75%", overflowY: "scroll", color: "gold"}}>
+           {detailSide ? <img id="topTrophies" src={"http://127.0.0.1:8000"+props.trophyMama.image}></img> : <b><p style={{height: "400px", paddingRight: "0.5rem", width: "75%", overflowY: "scroll", color: "gold"}}>
            
            
                 This is a special game. Unlike the seasonal winner being paid out for biggest Buck, Duck, or Bass. This reward is paid out only after the last best set record is beaten.

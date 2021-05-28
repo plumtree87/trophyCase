@@ -1,45 +1,86 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, Button } from '@material-ui/core';
+import { Grid, Button, Card } from '@material-ui/core';
+import ReactCardFlip from 'react-card-flip';
 // the props for this component are passed in from main app into <TopDisplayCase />, and from topTrophies.jsx to here.  
 
 const DisplayLittleBigFoot = (props) => {
 
   
-
+    const [isFront, setSide] = useState(false);
+    const [detailSide, setDetail] = useState(true);
+    const [locationSide, setLocation] = useState(false);
 
    useEffect(() =>{
        console.log('Use Effect running')
    });
 
 
-   function selectShowingCase(){
-       
+   const handleClick = (event) => {
+    event.stopPropagation();
+    setSide(!isFront);
+    }
+    
+  
+   function selectDetailSide(){
+       setDetail(!detailSide)
 
     }
-
+    
+    function selectGeoCodingSide(){
+        setLocation(!locationSide)
+    }
     return (
         
-       <h5> 
-       This is a special game, just like Big Mama and Big Rack little buck.  Rewards are paid out only if the last succesful record is beaten.
-       You are in the search for Big Foot. 
+        <Grid><Card>
 
-       The duck that weighs the least, with the biggest size foot being measured by a tape measurer from heel to longest toe, wins.
+           {isFront ? 
+           <Button onClick={() => selectGeoCodingSide()}> 
 
-       Every season, these special games records will become harder and harder to beat, until eventually... Who knows how big their pools could become.
+           { locationSide ? <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>USER DETAILS</h8> 
+           : <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>LOCATION</h8> }
 
-       Will feel bad for all the hunters who actually beat these records, but weren't subscribed T_T
+           {locationSide ? <Card style={{textAlign: "right"}}>Click for Location</Card> : <Card>Click for Champ Details</Card> }
+           </Button>  : 
+           <Button onClick={() => selectDetailSide()}>
+            
+           { detailSide ? <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Record BigFoot</h8> 
+           : <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Rules to Win</h8> }
 
-       Annually, I will come to visit the record holders if the pool size ever gets big enough to verify the winners. If the pool size is too small to be worth the trouble,
-       then you'll just have to submit videos, photos, witnesses in the videos to testify of your truthfulness, and go to a butcher or a shop that stuffs animals for statues
-       to get them to verify it, in the name of their shop and on the integrity of their shop. Willing to work with people who cannot meet one of these requirements. 
-       
-       These are rules I'm making up on the fly, we can change them as the community votes on FB poll, or Reddit Poll, anywhere we decide to use as home base.
 
-       A gun section is coming soon! It will be an annual event, where subscribers meet together at a range, and all fire at a target. Shooter with most bullseyes wins. 
-       And they will get a place in the annual hall of fame for best shooter on the site. 
+           {detailSide ? <Card>Click for Rules</Card> : <Card>Click for Record BigFoot</Card>}
+           </Button> }
 
-       </h5>
+        <ReactCardFlip isFlipped={isFront} flipDirection='vertical'>
+      <Card id="topTrophiesCard" onClick={handleClick}>
+           {detailSide ? <img id="topTrophies" src={"http://127.0.0.1:8000"+props.trophyBigFoot.image}></img> : <b><p style={{height: "400px", paddingRight: "0.5rem", width: "75%", overflowY: "scroll", color: "gold"}}>
+           
+           
+                This is a special game. Unlike the seasonal winner being paid out for biggest Buck, Duck, or Bass. This reward is paid out only after the last best set record is beaten.
+                So, let's say someone sets a really good record that is hard to beat and it takes years to beat it. That means, every year the pool size is accruing more and more size to the pot.
+                Once someone eventually beats the record.. who knows how much $$$ it could become worth in time.
 
+                BigFoot is for the person who catches the duck with the biggest foot, measured from ankle to longest toe. They get the pool. 
+
+                In order to win, you must beat the last greatest all time record.
+
+                Video of the person who ate the caviar will be uploaded here!
+           
+           
+          </p></b>  } 
+
+              <Card id="topTrophiesDetailsCard" > {props.trophyBigFoot.weight} lbs </Card>
+       </Card>
+       <Card id="topTrophiesCardBack" onClick={handleClick} style={{overflowY: "scroll"}}>
+        {locationSide ?  <h4> {props.trophyBigFoot.comments}   USERNAME, FNAME LASTNAME, DATE RECORDED.  </h4> : <h4>
+
+            LOCATION FOUND GOES HERE
+        </h4> }
+
+        
+       </Card>
+       </ReactCardFlip>
+      </Card></Grid>
+   
     );
 }
 

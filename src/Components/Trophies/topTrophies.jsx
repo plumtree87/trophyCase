@@ -33,10 +33,10 @@ const TopDisplayCase = (props) => {
            return props.trophyMama.map(bigMama => <DisplayBigMama trophyMama={bigMama} />)
        }
        if(game === 'bigRackLittleBuck'){
-           return <DisplayBigRackLittleBuck />
+           return <DisplayBigRackLittleBuck trophyBigRackLittleBuck={props.trophyBigRackLittleBuck} />
        }
        if(game === 'littleBigFoot'){
-           return <DisplayLittleBigFoot />
+        return <DisplayLittleBigFoot trophyBigFoot={props.trophyLittleBigFoot} />
        }
        
 

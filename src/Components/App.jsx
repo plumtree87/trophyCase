@@ -17,9 +17,9 @@ class App extends Component {
         ducks: [],
         bucks: [],
         deer: [],
-        bigMama: {},
-        bigRackLittleBuck: '',
-        littleBigFoot: '',
+        bigMama: [],
+        bigRackLittleBuck: [],
+        bigFoot: [],
         topBucks: [],
         topDucks: [],
         topDeer: [],
@@ -35,7 +35,7 @@ class App extends Component {
         this.getTopBucks();
         
     }
-    // >>>>>>>>>>>>>>>>>>>>>>>>    all axios requests between these comments    <<<<<<<<<<<<<<<<<   ///
+    // >>>>>>>>>>>>>>>>>>>>>>>>    all axios requests and their pertaining functinos between these comments    <<<<<<<<<<<<<<<<<   ///
 
 
     sortWeightDescending(data){
@@ -46,7 +46,8 @@ class App extends Component {
     }
     sortWeightAscending(data){
 
-        data.sort(function(a, b){return a.weight-b.weight});
+        let sorted = data.sort(function(a, b){return a.weight-b.weight});
+        return sorted;
     }
 
     // USER            USER             USER            USER            USER
@@ -67,18 +68,33 @@ class App extends Component {
     }
     //DUCKS       DUCKS         DUCKS       DUCKS       DUCKS          DUCKS 
 
+    sortByFootSize(data){
+     
+        let bigFoot = data.sort(function(a, b){return b.footsize-a.footsize});
+        
+        return bigFoot[0]
+     
+    }
+
     async getTopDucks(){
+  
         let response = await axios.get('http://127.0.0.1:8000/ducks/')
 
         this.setState({
             ducks: response.data
         })
+       
         let descendingOrder = this.sortWeightDescending(response.data)
         //descendingOrder.length=5;            // set to 5 for testing, ultimately will set to show top 100.
         this.setState({
             topDucks: descendingOrder
         })
-     
+        let setBigFoot = this.sortByFootSize(response.data)
+        
+        this.setState({
+            bigFoot: setBigFoot
+        })
+        console.log(setBigFoot, "BIG FOOT IS HERE")
 
 
     }
@@ -89,19 +105,25 @@ class App extends Component {
 
     }
 
-    sortByFootSize(data){
-        let smallDuck = data.weight.sort(function(a, b){return a-b});
-    
-        smallDuck.length=5;
-        let bigFoot = smallDuck.footsize.sort(function(a, b){return b-a});
-     
-    }
+
 
     // BUCKS           BUCKS            BUCKS              BUCKS                 BUCKS              BUCKS     
 
-    async getTopBucks(){
-        let response = await axios.get('http://127.0.0.1:8000/bucks/')
+    sortByRackPoints(data){
+        let max = data[0].rackpoints;
+        for(let i = 0; i < data.length; i++){
+            if(data[i].rackpoints > max){
+                max = data[i];
+            }
+        }
+        console.log(max)
+        return max
+    }
 
+    async getTopBucks(){
+   
+        let response = await axios.get('http://127.0.0.1:8000/bucks/')
+        console.log("AXIOS WORKING? CHECK", response.data)
         this.setState({
             bucks: response.data
         })
@@ -110,6 +132,16 @@ class App extends Component {
         this.setState({
             topBucks: descendingOrder
         })
+        let ascendingOrder = this.sortWeightAscending(this.state.topBucks)
+        console.log("is asacending order working?", ascendingOrder)
+        
+        let bigRack = this.sortByRackPoints(ascendingOrder)
+        this.setState({
+            bigRackLittleBuck: bigRack
+        })
+        console.log("is sortByRackPoints working?", bigRack)
+
+
        
 
 
@@ -138,6 +170,7 @@ class App extends Component {
 
     
     async getTopBass(){
+     
         let response = await axios.get('http://127.0.0.1:8000/fish/')
 
         this.setState({
@@ -171,25 +204,25 @@ class App extends Component {
     }
 
     
-    // <<<<<<<<<<<<<<<<<<<<<<<<<    all axios requests between these comments   >>>>>>>>>>>>>>>>>/// 
+    // <<<<<<<<<<<<<<<<<<<<<<<<<    all axios requests and ther pertaining functions between these comments < UP FROM HERE  >>>>>>>>>>>>>>>>>/// 
 
 
  /// displayWindow() //  also close window ///
 
 
-    displayWindow(e){
-        if (this.state.component == 'login'){
+    displayLoginWindow(e){
+        if (this.state.component === 'login'){
             return <Login registerUser={this.postUser.bind(this)} />
                         
 
                    
         }
-        if (this.state.component == 'register'){
+        if (this.state.component === 'register'){
             return <Register  />
         }
     }
 
- /// END OF displayWindow() /// close window also.. //
+ /// END OF displayWindow() /// close window //
     
 
  /// want to put the <p? into an accordian so it takes up less space. 
@@ -199,7 +232,7 @@ class App extends Component {
             <div><button onClick={() => this.state.isOpen ? this.setState({component: 'login', isOpen: !this.state.isOpen}) : this.setState({component: '', isOpen: !this.state.isOpen})}> login </button></div>
            <Grid id="mainScreen" >
           
-             {this.displayWindow()}
+             {this.displayLoginWindow()}
 
            </Grid>
            <Grid id="test">
@@ -210,9 +243,11 @@ class App extends Component {
                  trophyBucks = {this.state.topBucks}
                  trophyBass = {this.state.topBass}
                  trophyMama = {this.state.bigMama}
+                 trophyLittleBigFoot = {this.state.bigFoot}
+                 trophyBigRackLittleBuck = {this.state.bigRackLittleBuck}
                   />
                     <Grid>
-                        <p style={{color: "white", margin: "2rem"}}>This application is community driven. Without you, the reward systems are not possible. Just like people pay to go to an Oprah TV show, and had a chance to win a car.
+                        <p style={{color: "white", margin: "2rem", overflowY: "scroll", height: "500px"}}>This application is community driven. Without you, the reward systems are not possible. Just like people pay to go to an Oprah TV show, and had a chance to win a car.
                         You have a chance to win $$$ by displaying your game trophies on this website show. The monthly subscription allows you access to participate in those rewards. 
                         The more people who use this app, the greater the rewards possible. You're paying for the service to display your trophies, the rewards are just a bonus.
                         If you're the kind of guy who would buy a scratch to win card at the gas station, and the type to hunt. There's a lot of similarities between this and gambling.
@@ -230,8 +265,8 @@ class App extends Component {
                         build a merchandise page, which has links to amazon products. If you buy your cofee mug, gun holster, bear spray, fishing rod, whatever it is from those links, that money also
                         will go to increases the size of the pools.  So buying products from my page, will increase the rewards I can pay out. Win Win. P.S. You have have paid your yearly subscription,
                         in order to vote. Votes will be used to create new games, according to the rules the community would like to see. We can have a reddit page to discuss options for new game rules.
-                        But, it's not like I'm going to pay out rewards to users of the application, if the using the application generates no profit. It's only possible if it does. So, please subcribed,
-                        and I'm willing to be quite generous! We can also vote on the cost of the annual subscription. Will take a 2/3rd majority to win to change it. Right now, it's 1$ per year.
+                        But, it's not like I'm going to pay out rewards to users of the application, if the using the application generates no profit. It's only possible if it does. So, please subcribe,
+                        because 100% of income from subscriptions is returned in community reward programs! We can also vote on the cost of the annual subscription. Will take a 2/3rd majority to win to change it. Right now, it's 1$ per year.
                         But let's say we all share this app with our buddies, the more people you can motivate to display their trohpies here, the more generous I can be. 
                         </p>
 
