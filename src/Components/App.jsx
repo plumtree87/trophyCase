@@ -23,16 +23,19 @@ class App extends Component {
         topBucks: [],
         topDucks: [],
         topDeer: [],
+        user: [],
+        status: '',
 
 
 
 
     }
     componentDidMount(){
-        this.getUsers();
-        this.getTopDucks();
-        this.getTopBass();
-        this.getTopBucks();
+        //this.getUser();
+       // this.getTopDucks();
+       // this.getTopBass();
+       // this.getTopBucks();
+        console.log(this.state.user)
         
     }
     // >>>>>>>>>>>>>>>>>>>>>>>>    all axios requests and their pertaining functinos between these comments    <<<<<<<<<<<<<<<<<   ///
@@ -51,20 +54,40 @@ class App extends Component {
     }
 
     // USER            USER             USER            USER            USER
-    async getUsers(e){
-        let response = await axios.get('http://127.0.0.1:8000/user/')
+    async getUser(e){
+
+        let response = await axios.get('http://127.0.0.1:8000/profile/')
         this.setState({
-            users: response.data
+            user: response.data
         })
-  
+
+       
     }
 
+    async loginUser(data){
+        try {
+            let response = await axios.post('http://127.0.0.1:8000/api/signin', data)
+            console.log("Login attempted")
+            console.log(response)
+            if(response.status === 200){
+                this.setState({
+                    status: response.status
+                })
+            }
+        }
+        catch {
+            this.setState({
+                status: "not 200 OK"
+            })
+            alert("Check your account name or password. One of them is wrong. Email @me if you got any more issues [will make a better option than this in futre]")
+        }
+    }
 
-
-    async postUser(data){
+    async registerUser(data){
     
-        await axios.post('http://127.0.0.1:8000/user/', data)
-        
+        let response = await axios.post('http://127.0.0.1:8000/api/signup', data)
+        console.log("Register User GOT THIS FAR <<")
+        console.log(response.data)
     }
     //DUCKS       DUCKS         DUCKS       DUCKS       DUCKS          DUCKS 
 
@@ -212,13 +235,13 @@ class App extends Component {
 
     displayLoginWindow(e){
         if (this.state.component === 'login'){
-            return <Login registerUser={this.postUser.bind(this)} />
+            return <Login loginUser={(data) => this.loginUser(data)} />
                         
 
                    
         }
         if (this.state.component === 'register'){
-            return <Register  />
+            return <Register registerUser = {(data) => this.registerUser(data)}  />
         }
     }
 

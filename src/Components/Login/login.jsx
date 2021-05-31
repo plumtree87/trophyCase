@@ -19,20 +19,38 @@ const Login = (props) => {
    /// form handlers between these comments below///
 
    const [user, setUser] = useState({
-       username: '',
        email: '',
        password: '',
    });
 
    async function handleSubmit(event){
+     
+    
        event.preventDefault();
-    const data = {
-        username: user.username,
+        const data = {
         email: user.email,
         password: user.password,
+        }
+
+        props.loginUser(user)
+    }
+    
+    const onChangeEmail = (e) => {
+        setUser({
+          ...user, email: e.target.value
+        })
     }
 
-}
+    const onChangePassword = (e) => {
+        setUser({
+          ...user, password: e.target.value
+        })
+    }
+    
+    
+   
+
+
    /// above is form handlers and everything related to it. //////   
 
    function switchFromLoginToRegister(){
@@ -44,21 +62,25 @@ const Login = (props) => {
             
                     <ThemeProvider >
                         <TextField
-                            label="User Name"
+                            label="email"
                             variant="outlined"
                             id="mui-theme-provider-outlined-input"
-                            name="username"
+                            name="email"
+                            onChange={onChangeEmail}
+                            
                         />
-                                    <TextField
-                            label="Password"
+                        <TextField
+                            label="password"
                             variant="outlined"
                             id="mui-theme-provider-outlined-input"
-                            name="username"
+                            name="password"
+                            onChange={onChangePassword}
+                            
                         />
                     </ThemeProvider>
-        
+                  
                 </form>
-                <div>  <input type="submit" value="Submit" style={{marginRight: "1rem", marginTop: "1rem"}} /><a id="notRegistered" href='#' onClick={() => setRegister(!register)}> Not Registered?</a>
+                <div>  <input type="submit" value="Submit" style={{marginRight: "1rem", marginTop: "1rem"}} onClick={handleSubmit} /><a id="notRegistered" href='#' onClick={() => setRegister(!register)}> Not Registered?</a>
                   </div>
                
                
@@ -66,7 +88,7 @@ const Login = (props) => {
         )
         }}
         if (register === true){
-            return <Register registerUser={props.registerUser.bind(this)} />
+            return <Register registerUser={props.registerUser} />
         }
    };
 
