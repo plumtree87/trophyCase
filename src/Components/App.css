@@ -54,8 +54,17 @@
 
 #backgroundDiv {
     background-image: radial-gradient(circle, #0e7328, #286b21, #33621c, #3a5a1a, #3e5219, #354a1b, #2d431d, #263b1d, #18301d, #0e251b, #081a16, #010d0c);
+    position: fixed;
+    padding: 0;
+    margin: 0;
 }
 
 #buttonGroup {
     color: gold;
+}
+
+#intro {
+    scrollbar-width: none;
+    padding: 1.5rem;
+    
 }

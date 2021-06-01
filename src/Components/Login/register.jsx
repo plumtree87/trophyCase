@@ -17,27 +17,37 @@ class Register extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+   
     }
 
 
     handleChange(event) {
+    
         this.setState({
             [event.target.name]: event.target.value
         });
+       
     }
 
-    handleNestedChange(event) {
-        //use split function to create hierarchy. example:
-        //selectedCreditCard.creditCardNumber -> [selectedCreditCard , creditCardNumber]
-        const obj = this.generate(
-          event.target.name.split("."),
-          event.target.value,
-          0
-        );
-        
-        this.setState({ ...obj });
-        console.log(obj)
-        this.props.registerUser(obj);
+ 
+
+    handleNestedChange = (e , object , type) => {
+        const profile = this.state.profile;
+        var key = e.target.name;
+        var value = e.target.value;
+    
+        object[key] = value;
+        if(type === 'first_name'){
+            profile.attributes.first_name = object;
+        } else if (type === 'last_name'){
+            profile.attributes.first_name = object;
+        } else if (type === 'phone_number') {
+            profile.attributes.phone_number = object;
+        }
+        this.setState({
+          profile : profile
+        });
+      
       }
 
 
@@ -46,30 +56,27 @@ class Register extends Component {
         const user = {
             password: this.state.password,
             email: this.state.email,
-            phone_number: this.state.phone_number,
-            profile: {
-                first_name: this.state.profile.first_name,
-                last_name: this.state.profile.last_name,
-                phone_number: this.state.profile.phone_number,
-            }
+            profile: this.state.profile
 
-            }
-            console.log(user, "test 1");
-        //     this.props.registerUser(user);
-        //     console.log(user, "test 2")
-        //     this.setState({
-        //         profile: {
-        //             first_name: '',
-        //             last_name: '',
-        //             phone_number: '',
-        //             age: 0,
-        //             gender: 'M',
-        //         },
-        //         password: '',
-        //         email: '',
+        }
+        console.log(user)
+        console.log(this.props)
+            this.props.registerUser(user);
+            console.log(user, "test 2")
+            this.setState({
+                profile: {
+                    first_name: '',
+                    last_name: '',
+                    phone_number: '',
+                    age: 0,
+                    gender: 'M',
+                },
+                password: '',
+                email: '',
 
 
-        // });
+        });
+        console.log(this.state.profile)
     }
     //  <input type='text' name="title" value={this.state.title} onChange={this.handleChange} />
 
@@ -82,7 +89,7 @@ class Register extends Component {
                         label="email"
                         variant="outlined"
                         id="mui-theme-provider-outlined-input"
-                        type="email"
+                        //type="email"
                         onChange={this.handleChange}
                         name="email"
                         value={this.state.email}
@@ -96,17 +103,18 @@ class Register extends Component {
                         onChange={this.handleChange}
                         name="password"
                         value={this.state.password}
-                        type="password"
+                        //type="password"
                         required
-                    />]
+                    />
 
                 <TextField
                         label="First Name"
                         variant="outlined"
                         id="mui-theme-provider-outlined-input"
-                        onChange={this.handleChange}
-                        name="profile.first_name"
-                        value={this.state.profile && this.state.profile.first_name ? this.state.profile.first_name : null}
+                        type="text"
+                        name="first_name"
+                        value={this.state.profile.first_name}
+                        onChange={event => { this.handleNestedChange(event, this.state.profile ,'profile'); }}
                         required
                 
                     /> 
@@ -114,19 +122,21 @@ class Register extends Component {
                         label="Last Name"
                         variant="outlined"
                         id="mui-theme-provider-outlined-input"
-                        onChange={this.handleChange}
-                        name="profile.last_name"
-                        value={this.state.profile && this.state.profile.last_name ? this.state.profile.last_name : null}
+                        type="text"
+                        onChange={event => { this.handleNestedChange(event, this.state.profile ,'profile'); }}
+                        name="last_name"
+                        value={this.state.profile.last_name}
                         required
                 
                     /> 
                  <TextField
                         label="Phone Number"
                         variant="outlined"
+                        type="text"
                         id="mui-theme-provider-outlined-input"
-                        onChange={this.handleChange}
-                        name="profile.phone_number"
-                        value={this.state.profile && this.state.profile.phone_number ? this.state.profile.phone_number : null}
+                        onChange={event => { this.handleNestedChange(event, this.state.profile ,'profile'); }}
+                        name="phone_number"
+                        value={this.state.profile.phone_number}
                         required
                 
                     /> 

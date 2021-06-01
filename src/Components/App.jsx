@@ -5,6 +5,7 @@ import { Grid, Button } from '@material-ui/core';
 import Login from './Login/login';
 import Register from './Login/register';
 import TopDisplayCase from './Trophies/topTrophies'
+import LoggedInView from './LoggedInView/loggedInView'
 
 
 
@@ -32,9 +33,9 @@ class App extends Component {
     }
     componentDidMount(){
         //this.getUser();
-       // this.getTopDucks();
-       // this.getTopBass();
-       // this.getTopBucks();
+       this.getTopDucks();
+       this.getTopBass();
+       this.getTopBucks();
         console.log(this.state.user)
         
     }
@@ -102,7 +103,7 @@ class App extends Component {
     async getTopDucks(){
   
         let response = await axios.get('http://127.0.0.1:8000/ducks/')
-
+        console.log("TOPDUCKS() response", response.data)
         this.setState({
             ducks: response.data
         })
@@ -235,71 +236,90 @@ class App extends Component {
 
     displayLoginWindow(e){
         if (this.state.component === 'login'){
-            return <Login loginUser={(data) => this.loginUser(data)} />
+            return <Login 
+            loginUser={(data) => this.loginUser(data)}
+            registerUser={(data) => this.registerUser(data)}
+             />
                         
 
                    
         }
         if (this.state.component === 'register'){
-            return <Register registerUser = {(data) => this.registerUser(data)}  />
+            return <Register />
         }
     }
 
  /// END OF displayWindow() /// close window //
+
+    displayLoggedInDependancyView() {
+        if(this.state.status === 200){
+            console.log(this.state.status)
+            return <LoggedInView />
+        }
+        if(this.state.status !== 200){
+            console.log(this.state.status)
+            return          <Grid>     <div><button onClick={() => this.state.isOpen ? this.setState({component: 'login', isOpen: !this.state.isOpen}) : this.setState({component: '', isOpen: !this.state.isOpen})}> login </button></div>
+            <Grid id="mainScreen" >
+           
+              {this.displayLoginWindow()}
+ 
+            </Grid>    
+            <TopDisplayCase
+            trophyDucks = {this.state.topDucks}
+            trophyBucks = {this.state.topBucks}
+            trophyBass = {this.state.topBass}
+            trophyMama = {this.state.bigMama}
+            trophyLittleBigFoot = {this.state.bigFoot}
+            trophyBigRackLittleBuck = {this.state.bigRackLittleBuck}
+            />
+            <Grid>
+                <p id="intro" style={{color: "white", overflowY: "scroll", height: "500px", fontSize: "4vw"}}>This application is community driven. Without you, the reward systems are not possible. Just like people pay to go to an Oprah TV show, and had a chance to win a car.
+                You have a chance to win $$$ by displaying your game trophies on this website show. The monthly subscription allows you access to participate in those rewards. 
+                The more people who use this app, the greater the rewards possible. You're paying for the service to display your trophies, the rewards are just a bonus.
+                If you're the kind of guy who would buy a scratch to win card at the gas station, and the type to hunt. There's a lot of similarities between this and gambling.
+                You pay for the subscription, and you have a chance each season to win $$ based on the size of the pool, which is proportionate to the number of users willing to subscribe.
+                Yes, this sounds like gambling, but no it isn't. You're paying to display your trophies on the website. This is like Oprah... You have a chance to win a new car. If you pay
+                for a ticket at my show. I make this loophole, for the convictions against gambling. If you look at it in the right light, technically, you're paying for a service, image hosting,
+                plus the hours it took me to build this, and the hours it will take me updating it. You're paying for the entertainment to show off your trophies.
+                 Thanks for subscribing! Good luck winning the rewards! Do you work for free at your job? Neither do I. So, technically, if you pay for the service, then 
+                all the money is mine to do with it as I please. If i want to give it away to people who kill the biggest buck on this website, it's mine to do with as I please. 
+                So, are you going to judge me for being generous? Also, 100% of all subscriptions paid are put into the pool. I make absolutely no profit from your subscriptions themselves. 
+                I actually invest the money for the year, earn interest, and withdraw the funds at the end of each year to pay out the full amount earned from subscriptions. I profit from interest.
+                 So, it's a win win for everyone. Also, I'm going to post a vote, allowing the community to vote. If you trust me to invest
+                in crypto currency, USDT and USDC with yall's subcription. I can do that, and not only pay out the full amount recieved, but also interest. So, We can do basically anything
+                on here that the community votes to do. Probably people like "Crypto? doesn't that go up and down a lot?" Anyways, we'll let the community votes speak. Also, eventually I will
+                build a merchandise page, which has links to amazon products. If you buy your cofee mug, gun holster, bear spray, fishing rod, whatever it is from those links, that money also
+                will go to increases the size of the pools.  So buying products from my page, will increase the rewards I can pay out. Win Win. P.S. You have have paid your yearly subscription,
+                in order to vote. Votes will be used to create new games, according to the rules the community would like to see. We can have a reddit page to discuss options for new game rules.
+                But, it's not like I'm going to pay out rewards to users of the application, if the using the application generates no profit. It's only possible if it does. So, please subcribe,
+                because 100% of income from subscriptions is returned in community reward programs! We can also vote on the cost of the annual subscription. Will take a 2/3rd majority to win to change it. Right now, it's 1$ per year.
+                But let's say we all share this app with our buddies, the more people you can motivate to display their trohpies here, the more generous I can be. 
+                </p>
+
+            </Grid>
+        </Grid> 
+    
+        }
+    }
     
 
  /// want to put the <p? into an accordian so it takes up less space. 
     render() { 
         return (
-            <div id="backgroundDiv">
-            <div><button onClick={() => this.state.isOpen ? this.setState({component: 'login', isOpen: !this.state.isOpen}) : this.setState({component: '', isOpen: !this.state.isOpen})}> login </button></div>
-           <Grid id="mainScreen" >
-          
-             {this.displayLoginWindow()}
+ 
 
-           </Grid>
-           <Grid id="test">
+           <Grid id="backgroundDiv" >
         
-               <Grid>       
-                <TopDisplayCase
-                 trophyDucks = {this.state.topDucks}
-                 trophyBucks = {this.state.topBucks}
-                 trophyBass = {this.state.topBass}
-                 trophyMama = {this.state.bigMama}
-                 trophyLittleBigFoot = {this.state.bigFoot}
-                 trophyBigRackLittleBuck = {this.state.bigRackLittleBuck}
-                  />
-                    <Grid>
-                        <p style={{color: "white", margin: "2rem", overflowY: "scroll", height: "500px"}}>This application is community driven. Without you, the reward systems are not possible. Just like people pay to go to an Oprah TV show, and had a chance to win a car.
-                        You have a chance to win $$$ by displaying your game trophies on this website show. The monthly subscription allows you access to participate in those rewards. 
-                        The more people who use this app, the greater the rewards possible. You're paying for the service to display your trophies, the rewards are just a bonus.
-                        If you're the kind of guy who would buy a scratch to win card at the gas station, and the type to hunt. There's a lot of similarities between this and gambling.
-                        You pay for the subscription, and you have a chance each season to win $$ based on the size of the pool, which is proportionate to the number of users willing to subscribe.
-                        Yes, this sounds like gambling, but no it isn't. You're paying to display your trophies on the website. This is like Oprah... You have a chance to win a new car. If you pay
-                        for a ticket at my show. I make this loophole, for the convictions against gambling. If you look at it in the right light, technically, you're paying for a service, image hosting,
-                        plus the hours it took me to build this, and the hours it will take me updating it. You're paying for the entertainment to show off your trophies.
-                         Thanks for subscribing! Good luck winning the rewards! Do you work for free at your job? Neither do I. So, technically, if you pay for the service, then 
-                        all the money is mine to do with it as I please. If i want to give it away to people who kill the biggest buck on this website, it's mine to do with as I please. 
-                        So, are you going to judge me for being generous? Also, 100% of all subscriptions paid are put into the pool. I make absolutely no profit from your subscriptions themselves. 
-                        I actually invest the money for the year, earn interest, and withdraw the funds at the end of each year to pay out the full amount earned from subscriptions. I profit from interest.
-                         So, it's a win win for everyone. Also, I'm going to post a vote, allowing the community to vote. If you trust me to invest
-                        in crypto currency, USDT and USDC with yall's subcription. I can do that, and not only pay out the full amount recieved, but also interest. So, We can do basically anything
-                        on here that the community votes to do. Probably people like "Crypto? doesn't that go up and down a lot?" Anyways, we'll let the community votes speak. Also, eventually I will
-                        build a merchandise page, which has links to amazon products. If you buy your cofee mug, gun holster, bear spray, fishing rod, whatever it is from those links, that money also
-                        will go to increases the size of the pools.  So buying products from my page, will increase the rewards I can pay out. Win Win. P.S. You have have paid your yearly subscription,
-                        in order to vote. Votes will be used to create new games, according to the rules the community would like to see. We can have a reddit page to discuss options for new game rules.
-                        But, it's not like I'm going to pay out rewards to users of the application, if the using the application generates no profit. It's only possible if it does. So, please subcribe,
-                        because 100% of income from subscriptions is returned in community reward programs! We can also vote on the cost of the annual subscription. Will take a 2/3rd majority to win to change it. Right now, it's 1$ per year.
-                        But let's say we all share this app with our buddies, the more people you can motivate to display their trohpies here, the more generous I can be. 
-                        </p>
-
-                    </Grid>
-                </Grid> 
+            {this.displayLoggedInDependancyView()}
              </Grid>
-           </div>
+  
 
          );
     }
+
+
+
+
 }
  
 export default App;
