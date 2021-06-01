@@ -32,7 +32,7 @@ const DisplayDucks = (props) => {
     /// about this media thing later.
     return (
         
-       <Grid><Card>
+    <Card>
        
          <ReactCardFlip isFlipped={isFront} flipDirection='horizontal'>
        <Card id="topTrophiesCard" onClick={handleClick}>
@@ -46,8 +46,7 @@ const DisplayDucks = (props) => {
          
         </Card>
         </ReactCardFlip>
-       </Card></Grid>
-
+       </Card>
     );
 }
 

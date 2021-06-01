@@ -1,6 +1,6 @@
 #mainScreen {
     align-items: center;
-    
+    overflow-y: scroll;
     margin: 3rem
 }
 
@@ -26,7 +26,7 @@
 #topTrophies {
     width: 75%;
     height: auto;
-    margin: 2rem;
+    margin: 1rem;
     
 }
 
@@ -42,7 +42,7 @@
 
 #topTrophiesCardBack {
     background-image: linear-gradient(to top, #073705, #282600, #2a1700, #1e0b05, #000000);
-    height: 400px;
+    height: 300px;
     width: 100%;
     color: white;
     font-size: medium;
@@ -54,7 +54,7 @@
 
 #backgroundDiv {
     background-image: radial-gradient(circle, #0e7328, #286b21, #33621c, #3a5a1a, #3e5219, #354a1b, #2d431d, #263b1d, #18301d, #0e251b, #081a16, #010d0c);
-    position: fixed;
+   
     padding: 0;
     margin: 0;
 }
@@ -64,7 +64,7 @@
 }
 
 #intro {
-    scrollbar-width: none;
+   
     padding: 1.5rem;
     
 }

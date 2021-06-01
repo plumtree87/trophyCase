@@ -26,21 +26,40 @@ class App extends Component {
         topDeer: [],
         user: [],
         status: '',
+        jwt: 0,
 
 
 
 
     }
     componentDidMount(){
-        //this.getUser();
-       this.getTopDucks();
-       this.getTopBass();
-       this.getTopBucks();
+        
+           this.getTopDucks();
+      
+        
+           this.getTopBass();
+           this.getTopBucks();
+           // this.getToken();
+  
+
         console.log(this.state.user)
+       
+
         
     }
-    // >>>>>>>>>>>>>>>>>>>>>>>>    all axios requests and their pertaining functinos between these comments    <<<<<<<<<<<<<<<<<   ///
 
+    getToken(){
+        const jwt = localStorage.getItem('token');
+        console.log("JWT", jwt)
+        if(jwt){
+            console.log(jwt)
+        }
+        else{
+            console.log(jwt, "JWT NOT WORKING")
+        }
+    }
+    // >>>>>>>>>>>>>>>>>>>>>>>>    all axios requests and their pertaining functinos between these comments    <<<<<<<<<<<<<<<<<   ///
+    //  {headers: {Authorization: 'Bearer ' + this.state.jwt}}
 
     sortWeightDescending(data){
   
@@ -69,12 +88,16 @@ class App extends Component {
         try {
             let response = await axios.post('http://127.0.0.1:8000/api/signin', data)
             console.log("Login attempted")
-            console.log(response)
-            if(response.status === 200){
-                this.setState({
-                    status: response.status
-                })
-            }
+            console.log(response.data.token, response.status, response.data.success)    
+            this.setState({
+                status: response.status,
+                jwt: response.data.token
+            })
+            console.log(this.state.jwt)
+
+                
+            
+            
         }
         catch {
             this.setState({
@@ -102,8 +125,8 @@ class App extends Component {
 
     async getTopDucks(){
   
-        let response = await axios.get('http://127.0.0.1:8000/ducks/')
-        console.log("TOPDUCKS() response", response.data)
+        let response = await axios.get('http://127.0.0.1:8000/api/ducks/')
+        console.log("TOPDUCKS() response", response.data,  {headers: {Authorization: 'Bearer ' + this.state.jwt}})
         this.setState({
             ducks: response.data
         })
@@ -125,7 +148,7 @@ class App extends Component {
 
     async postDucks(data){
 
-        let response = await axios.post('http://127.0.0.1:8000/ducks/', data)
+        let response = await axios.post('http://127.0.0.1:8000/api/ducks/', data)
 
     }
 
@@ -146,7 +169,7 @@ class App extends Component {
 
     async getTopBucks(){
    
-        let response = await axios.get('http://127.0.0.1:8000/bucks/')
+        let response = await axios.get('http://127.0.0.1:8000/api/bucks/')
         console.log("AXIOS WORKING? CHECK", response.data)
         this.setState({
             bucks: response.data
@@ -195,7 +218,7 @@ class App extends Component {
     
     async getTopBass(){
      
-        let response = await axios.get('http://127.0.0.1:8000/fish/')
+        let response = await axios.get('http://127.0.0.1:8000/api/fish/')
 
         this.setState({
             bass: response.data
@@ -252,18 +275,27 @@ class App extends Component {
  /// END OF displayWindow() /// close window //
 
     displayLoggedInDependancyView() {
-        if(this.state.status === 200){
-            console.log(this.state.status)
-            return <LoggedInView />
+        if(this.state.jwt !== 0){
+
+            return    <Grid>   
+                <LoggedInView /> 
+
+                        <Grid id="backgroundDiv" style={{width: "100%", height: "auto"}}>
+                    STIFF JERE
+                </Grid>
+        
+            </Grid>
+
+    
         }
-        if(this.state.status !== 200){
-            console.log(this.state.status)
+        if(this.state.jwt === 0){
             return          <Grid>     <div><button onClick={() => this.state.isOpen ? this.setState({component: 'login', isOpen: !this.state.isOpen}) : this.setState({component: '', isOpen: !this.state.isOpen})}> login </button></div>
-            <Grid id="mainScreen" >
+            <Grid id="mainScreen">
            
               {this.displayLoginWindow()}
  
             </Grid>    
+           <Grid>
             <TopDisplayCase
             trophyDucks = {this.state.topDucks}
             trophyBucks = {this.state.topBucks}
@@ -272,8 +304,9 @@ class App extends Component {
             trophyLittleBigFoot = {this.state.bigFoot}
             trophyBigRackLittleBuck = {this.state.bigRackLittleBuck}
             />
-            <Grid>
-                <p id="intro" style={{color: "white", overflowY: "scroll", height: "500px", fontSize: "4vw"}}>This application is community driven. Without you, the reward systems are not possible. Just like people pay to go to an Oprah TV show, and had a chance to win a car.
+       
+            
+                <p id="intro" style={{color: "white", overflowY: "scroll", height: "300px", fontSize: "4vw"}}>This application is community driven. Without you, the reward systems are not possible. Just like people pay to go to an Oprah TV show, and had a chance to win a car.
                 You have a chance to win $$$ by displaying your game trophies on this website show. The monthly subscription allows you access to participate in those rewards. 
                 The more people who use this app, the greater the rewards possible. You're paying for the service to display your trophies, the rewards are just a bonus.
                 If you're the kind of guy who would buy a scratch to win card at the gas station, and the type to hunt. There's a lot of similarities between this and gambling.
@@ -308,9 +341,10 @@ class App extends Component {
         return (
  
 
-           <Grid id="backgroundDiv" >
-        
+           <Grid id="backgroundDiv">
+            <Grid style={{overflowY: "scroll"}}>
             {this.displayLoggedInDependancyView()}
+            </Grid>
              </Grid>
   
 

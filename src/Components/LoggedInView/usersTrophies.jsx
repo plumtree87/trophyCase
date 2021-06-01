@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Button, ButtonGroup } from '@material-ui/core';
-import DisplayDucks from './GameCategories/ducks';
-import DisplayDeer from './GameCategories/deer';
-import DisplayBass from './GameCategories/bass';
-import DisplayBigMama from './GameCategories/bigMama';
-import DisplayBigRackLittleBuck from './GameCategories/bigRackLittleBuck';
-import DisplayLittleBigFoot from './GameCategories/littleBigFoot';
+import DisplayDucks from '../Trophies/GameCategories/ducks';
+import DisplayDeer from '../Trophies/GameCategories/deer';
+import DisplayBass from '../Trophies/GameCategories/bass';
+import DisplayBigMama from '../Trophies/GameCategories/bigMama';
+import DisplayBigRackLittleBuck from '../Trophies//GameCategories/bigRackLittleBuck';
+import DisplayLittleBigFoot from '../Trophies/GameCategories/bigRackLittleBuck'
 
 // this component passes most of it's own props down to children, categories of itself.
 
-const TopDisplayCase = (props) => {
+const UsersTrophies = (props) => {
 
    const [game, setGame] = useState('');
 
@@ -21,22 +21,22 @@ const TopDisplayCase = (props) => {
 
    function selectShowingCase(){
        if (game === 'duck'){
-           return props.trophyDucks.map(ducks => <DisplayDucks topDucks={ducks} />)
+           return props.usersDucks.map(ducks => <DisplayDucks usersDucks={ducks} />)
        }
        if (game === 'deer'){
-           return props.trophyBucks.map(bucks => <DisplayDeer topBucks={bucks}/>)
+           return props.usersBucks.map(bucks => <DisplayDeer topBucks={bucks}/>)
        }
        if(game === 'bass'){
-           return props.trophyBass.map(bass => <DisplayBass topBass={bass} />)
+           return props.usersBass.map(bass => <DisplayBass topBass={bass} />)
        }
        if(game === 'bigMama'){
-           return props.trophyMama.map(bigMama => <DisplayBigMama trophyMama={bigMama} />)
+           return props.usersMama.map(bigMama => <DisplayBigMama usersMama={bigMama} />)
        }
        if(game === 'bigRackLittleBuck'){
-           return <DisplayBigRackLittleBuck trophyBigRackLittleBuck={props.trophyBigRackLittleBuck} />
+           return <DisplayBigRackLittleBuck usersBigRackLittleBuck={props.usersBigRackLittleBuck} />
        }
        if(game === 'littleBigFoot'){
-        return <DisplayLittleBigFoot trophyBigFoot={props.trophyLittleBigFoot} />
+        return <DisplayLittleBigFoot usersBigFoot={props.usersLittleBigFoot} />
        }
        
 
@@ -61,7 +61,7 @@ const TopDisplayCase = (props) => {
              
           
             </div>
-            {(game !== '')}
+
             <Grid style={{height: "400px", overflowY: "scroll"}}>
                 {selectShowingCase()}
                 </Grid>
@@ -72,4 +72,4 @@ const TopDisplayCase = (props) => {
     );
 }
 
-export default TopDisplayCase;
+export default UsersTrophies;
