@@ -36,15 +36,16 @@ const DisplayBigRackLittleBuck = (props) => {
            {isFront ? 
            <Button onClick={() => selectGeoCodingSide()}> 
 
-           { locationSide ? <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>USER DETAILS</h8> 
-           : <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>LOCATION</h8> }
+           { locationSide ? 
+           <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>USER DETAILS</h8> : <h8 
+                    style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>LOCATION</h8> }
 
-           {locationSide ? <Card style={{textAlign: "right"}}>Click to see Location</Card> : <Card>Click for Champ Details</Card> }
-           </Button>  : 
-           <Button onClick={() => selectDetailSide()}>
+           {locationSide ? 
+           <Card style={{textAlign: "right", fontSize: "3vw", marginRight: "3rem"}}>Click to see Location</Card> : <Card>Click for Champ Details</Card> } </Button>  : <Button onClick={() => selectDetailSide()}>
             
-           { detailSide ? <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Record BigRack lil'buck</h8> 
-           : <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "2rem"}}>Rules to Win</h8> }
+           { detailSide ? 
+           <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Record BigRack lil'buck</h8> : <h8
+               style={{textAlign: "left", fontSize: "3vw", marginRight: "2rem"}}>Rules to Win</h8> }
 
 
            {detailSide ? <Card>Click for Rules</Card> : <Card>Click for Record BRLB</Card>}
@@ -52,7 +53,9 @@ const DisplayBigRackLittleBuck = (props) => {
 
         <ReactCardFlip isFlipped={isFront} flipDirection='vertical'>
       <Card id="topTrophiesCard" onClick={handleClick}>
-           {detailSide ? <img id="topTrophies" src={"http://127.0.0.1:8000"+props.trophyBigRackLittleBuck.image}></img> : <b><p style={{height: "500px", paddingRight: "0.5rem", width: "75%", overflowY: "scroll", color: "gold"}}>
+           {detailSide ? 
+           <img id="topTrophies" src={"http://127.0.0.1:8000"+props.trophyBigRackLittleBuck.image}></img> : <b>
+           <p style={{height: "500px", paddingRight: "0.5rem", width: "75%", overflowY: "scroll", color: "gold"}}>
            
            
                 This is a special game. Unlike the seasonal winner being paid out for biggest Buck, Duck, or Bass. This reward is paid out only after the last best set record is beaten.
@@ -73,7 +76,8 @@ const DisplayBigRackLittleBuck = (props) => {
               <Card id="topTrophiesDetailsCard" > {props.trophyBigRackLittleBuck.weight} lbs </Card>
        </Card>
        <Card id="topTrophiesCardBack" onClick={handleClick} style={{overflowY: "scroll"}}>
-        {locationSide ?  <h4> {props.trophyBigRackLittleBuck.comments}   USERNAME, FNAME LASTNAME, DATE RECORDED.  </h4> : <h4>
+        {locationSide ?
+          <h4> {props.trophyBigRackLittleBuck.comments}   USERNAME, FNAME LASTNAME, DATE RECORDED.  </h4> : <h4>
 
             LOCATION FOUND GOES HERE
         </h4> }

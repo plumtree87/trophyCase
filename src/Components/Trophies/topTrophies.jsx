@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Button, ButtonGroup } from '@material-ui/core';
-import DisplayDucks from './GameCategories/ducks';
-import DisplayDeer from './GameCategories/deer';
-import DisplayBass from './GameCategories/bass';
+import DisplayGame from './GameCategories/game.';
 import DisplayBigMama from './GameCategories/bigMama';
 import DisplayBigRackLittleBuck from './GameCategories/bigRackLittleBuck';
 import DisplayLittleBigFoot from './GameCategories/littleBigFoot';
@@ -21,13 +19,13 @@ const TopDisplayCase = (props) => {
 
    function selectShowingCase(){
        if (game === 'duck'){
-           return props.trophyDucks.map(ducks => <DisplayDucks topDucks={ducks} />)
+           return props.trophyDucks.map(ducks => <DisplayGame topGame={ducks} />)
        }
        if (game === 'deer'){
-           return props.trophyBucks.map(bucks => <DisplayDeer topBucks={bucks}/>)
+           return props.trophyBucks.map(bucks => <DisplayGame topGame={bucks}/>)
        }
        if(game === 'bass'){
-           return props.trophyBass.map(bass => <DisplayBass topBass={bass} />)
+           return props.trophyBass.map(bass => <DisplayGame topGame={bass} />)
        }
        if(game === 'bigMama'){
            return props.trophyMama.map(bigMama => <DisplayBigMama trophyMama={bigMama} />)
@@ -45,7 +43,7 @@ const TopDisplayCase = (props) => {
     return (
         <center>
         <Grid id="trophyCase">
-            <header style={{marginBottom: "1rem"}}><u style={{color: "gold"}}>Trophy Case</u></header>
+            <header style={{marginBottom: "1rem"}}><u style={{color: "gold", fontSize: "4vw"}}>Trophy Case</u></header>
             <div id="buttonGroup"> 
                 <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
                     <Button style={{fontSize: "3vw", color: "gold"}}  onClick={() => setGame('duck')}>Duck</Button>
@@ -62,7 +60,7 @@ const TopDisplayCase = (props) => {
           
             </div>
             {(game !== '')}
-            <Grid style={{height: "400px", overflowY: "scroll"}}>
+            <Grid style={{height: "700px", overflowY: "scroll"}}>
                 {selectShowingCase()}
                 </Grid>
                

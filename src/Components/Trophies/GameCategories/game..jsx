@@ -5,7 +5,7 @@ import ReactCardFlip from 'react-card-flip';
 // the props for this component are passed in from main app into <TopDisplayCase />, and from topTrophies.jsx to here.  
 
 
-const DisplayDucks = (props) => {
+const DisplayGame = (props) => {
 
 
     const [isFront, setSide] = useState(false);
@@ -21,8 +21,16 @@ const DisplayDucks = (props) => {
     setSide(!isFront);
     }
 
-   function selectShowingCase(){
-       
+   function selectGameInfo(){
+       if(props.topGame.rackpoints !== undefined){
+         return <Card>{props.topGame.rackpoints}</Card>
+       }
+       if(props.topGame.isPregnant !== undefined){
+         return <Card>{props.topGame.weight}</Card>
+       }
+       if(props.topGame.footsize !== undefined){
+         return <Card>{props.topGame.footsize}</Card>
+       }
 
     }
     /// I was having issues with my django media files being rendered on tha page. I do not know why. I followed several guides, and I couldn't piece it together. 
@@ -36,18 +44,17 @@ const DisplayDucks = (props) => {
        
          <ReactCardFlip isFlipped={isFront} flipDirection='horizontal'>
        <Card id="topTrophiesCard" onClick={handleClick}>
-             <img id="topTrophies" src={"http://127.0.0.1:8000"+props.topDucks.image}></img>  
+             <img id="topTrophies" src={"http://127.0.0.1:8000"+props.topGame.image}></img>  
 
-               <Card id="topTrophiesDetailsCard" > {props.topDucks.weight} lbs</Card>
+               <Card id="topTrophiesDetailsCard" > {props.topGame.weight} lbs</Card>
         </Card>
         <Card id="topTrophiesCardBack" onClick={handleClick}>
       
-               I want to put here, the Geolocation of the area the hunter captured this creature at... I think? Although thought of making comments possilble on the backside. not sure yet.
-         
+              {selectGameInfo()}
         </Card>
         </ReactCardFlip>
        </Card>
     );
 }
 
-export default DisplayDucks;
+export default DisplayGame;

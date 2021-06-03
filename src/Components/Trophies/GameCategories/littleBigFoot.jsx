@@ -31,7 +31,7 @@ const DisplayLittleBigFoot = (props) => {
     }
     return (
         
-        <Grid><Card>
+        <Grid><Card >
 
            {isFront ? 
            <Button onClick={() => selectGeoCodingSide()}> 
@@ -39,7 +39,7 @@ const DisplayLittleBigFoot = (props) => {
            { locationSide ? <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>USER DETAILS</h8> 
            : <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>LOCATION</h8> }
 
-           {locationSide ? <Card style={{textAlign: "right"}}>Click for Location</Card> : <Card>Click for Champ Details</Card> }
+           {locationSide ? <Card style={{textAlign: "right"}}>Click for Location</Card> : <Card style={{fontSize: "3vw"}}>Click for Champ Details</Card> }
            </Button>  : 
            <Button onClick={() => selectDetailSide()}>
             
@@ -63,7 +63,7 @@ const DisplayLittleBigFoot = (props) => {
 
                 In order to win, you must beat the last greatest all time record.
 
-                Video of the person who ate the caviar will be uploaded here!
+                Video of the person who ate the caviar will be uploaded here!  1
            
            
           </p></b>  } 

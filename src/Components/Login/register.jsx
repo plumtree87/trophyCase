@@ -59,24 +59,23 @@ class Register extends Component {
             profile: this.state.profile
 
         }
-        console.log(user)
-        console.log(this.props)
-            this.props.registerUser(user);
-            console.log(user, "test 2")
-            this.setState({
-                profile: {
-                    first_name: '',
-                    last_name: '',
-                    phone_number: '',
-                    age: 0,
-                    gender: 'M',
-                },
-                password: '',
-                email: '',
+   
+        this.props.registerUser(user);
+        
+        this.setState({
+            profile: {
+                first_name: '',
+                last_name: '',
+                phone_number: '',
+                age: 0,
+                gender: 'M',
+            },
+            password: '',
+            email: '',
 
 
         });
-        console.log(this.state.profile)
+       
     }
     //  <input type='text' name="title" value={this.state.title} onChange={this.handleChange} />
 

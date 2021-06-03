@@ -42,7 +42,7 @@ const DisplayBigMama = (props) => {
            { locationSide ? <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>USER DETAILS</h8> 
            : <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>LOCATION</h8> }
 
-           {locationSide ? <Card style={{textAlign: "right"}}>Click to see Location</Card> : <Card>Click to see Champ Details</Card> }
+           {locationSide ? <Card style={{textAlign: "right", fontSize: "3vw", marginRight: "3rem"}}>Click to see Location</Card> : <Card>Click to see Champ Details</Card> }
            </Button>  : 
            <Button onClick={() => selectDetailSide()}>
             

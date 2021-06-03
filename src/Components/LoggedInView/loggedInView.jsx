@@ -7,9 +7,12 @@ import UsersTrophies from './usersTrophies'
 const LoggedInView = (props) => {
 
    const [userChoice, setChoice] = useState('');
+   const [usersDucks, setUsersDucks] = useState('');
 
    useEffect(() =>{
-       console.log('Use Effect running')
+       console.log('Running axios request functions for loggedInView.jsx')
+       
+
       
    });
 
@@ -17,10 +20,18 @@ const LoggedInView = (props) => {
 
    function selectView(){
        if(userChoice === 'usersTrophies'){
-            return <UsersTrophies />
+      
+            return <UsersTrophies 
+            jwt={props.jwt}
+            usersDucks={props.usersDucks}
+            usersBucks={props.usersBucks}
+            usersBass={props.usersBass}
+            putBuck={props.putBuck}
+             />
        }
        if(userChoice === 'registerTrophy'){
-
+           console.log("CLICKED ON REGISTER TROPHY")
+            
        }
    }
    /// form handlers between these comments below///

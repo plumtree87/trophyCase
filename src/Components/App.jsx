@@ -27,6 +27,9 @@ class App extends Component {
         user: [],
         status: '',
         jwt: 0,
+        usersBucks: [],
+        usersDucks: [],
+        usersBass: [],
 
 
 
@@ -39,10 +42,9 @@ class App extends Component {
         
            this.getTopBass();
            this.getTopBucks();
-           // this.getToken();
-  
+           // this.getToken()
 
-        console.log(this.state.user)
+        
        
 
         
@@ -50,9 +52,9 @@ class App extends Component {
 
     getToken(){
         const jwt = localStorage.getItem('token');
-        console.log("JWT", jwt)
+      
         if(jwt){
-            console.log(jwt)
+      
         }
         else{
             console.log(jwt, "JWT NOT WORKING")
@@ -87,13 +89,16 @@ class App extends Component {
     async loginUser(data){
         try {
             let response = await axios.post('http://127.0.0.1:8000/api/signin', data)
-            console.log("Login attempted")
-            console.log(response.data.token, response.status, response.data.success)    
+      
+      
             this.setState({
                 status: response.status,
                 jwt: response.data.token
             })
-            console.log(this.state.jwt)
+        
+            this.getUsersDucks();
+            this.getUsersBucks();
+            this.getUsersBass();
 
                 
             
@@ -110,8 +115,7 @@ class App extends Component {
     async registerUser(data){
     
         let response = await axios.post('http://127.0.0.1:8000/api/signup', data)
-        console.log("Register User GOT THIS FAR <<")
-        console.log(response.data)
+   
     }
     //DUCKS       DUCKS         DUCKS       DUCKS       DUCKS          DUCKS 
 
@@ -126,7 +130,6 @@ class App extends Component {
     async getTopDucks(){
   
         let response = await axios.get('http://127.0.0.1:8000/api/ducks/')
-        console.log("TOPDUCKS() response", response.data,  {headers: {Authorization: 'Bearer ' + this.state.jwt}})
         this.setState({
             ducks: response.data
         })
@@ -141,7 +144,7 @@ class App extends Component {
         this.setState({
             bigFoot: setBigFoot
         })
-        console.log(setBigFoot, "BIG FOOT IS HERE")
+     
 
 
     }
@@ -151,6 +154,17 @@ class App extends Component {
         let response = await axios.post('http://127.0.0.1:8000/api/ducks/', data)
 
     }
+
+    async getUsersDucks(){
+        let response = await axios.get('http://127.0.0.1:8000/api/usersDucks/', {headers: {Authorization: 'Bearer ' + this.state.jwt}})
+        this.setState({
+            usersDucks: response.data
+        })
+
+       }
+
+    
+
 
 
 
@@ -163,14 +177,14 @@ class App extends Component {
                 max = data[i];
             }
         }
-        console.log(max)
+   
         return max
     }
 
     async getTopBucks(){
    
         let response = await axios.get('http://127.0.0.1:8000/api/bucks/')
-        console.log("AXIOS WORKING? CHECK", response.data)
+
         this.setState({
             bucks: response.data
         })
@@ -180,13 +194,13 @@ class App extends Component {
             topBucks: descendingOrder
         })
         let ascendingOrder = this.sortWeightAscending(this.state.topBucks)
-        console.log("is asacending order working?", ascendingOrder)
+  
         
         let bigRack = this.sortByRackPoints(ascendingOrder)
         this.setState({
             bigRackLittleBuck: bigRack
         })
-        console.log("is sortByRackPoints working?", bigRack)
+     
 
 
        
@@ -197,9 +211,22 @@ class App extends Component {
 
     async postBucks(data){
     
-        let response = await axios.post('http://127.0.0.1:8000/bucks/', data)
+        let response = await axios.post(`http://127.0.0.1:8000/bucks/`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt}} )
      
     }
+    
+    async putBuck(data, pk){
+    
+        let response = await axios.put(`http://127.0.0.1:8000/api/bucks/${pk}`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt}})
+        this.getUsersBucks();
+    }
+
+    async getUsersBucks(){
+        let response = await axios.get('http://127.0.0.1:8000/api/usersBucks/', {headers: {Authorization: 'Bearer ' + this.state.jwt}})
+        this.setState({
+            usersBucks: response.data
+        })
+       }
 
 
     // BASS         BASS                BASS                    BASS                    BASS                   BASS
@@ -250,6 +277,13 @@ class App extends Component {
   
     }
 
+    async getUsersBass(){
+        let response = await axios.get('http://127.0.0.1:8000/api/usersBass/', {headers: {Authorization: 'Bearer ' + this.state.jwt}})
+        this.setState({
+            usersBass: response.data
+        })
+       }
+
     
     // <<<<<<<<<<<<<<<<<<<<<<<<<    all axios requests and ther pertaining functions between these comments < UP FROM HERE  >>>>>>>>>>>>>>>>>/// 
 
@@ -274,11 +308,22 @@ class App extends Component {
 
  /// END OF displayWindow() /// close window //
 
+ 
+
     displayLoggedInDependancyView() {
         if(this.state.jwt !== 0){
 
             return    <Grid>   
-                <LoggedInView /> 
+                <LoggedInView 
+                    jwt={this.state.jwt}
+                    usersBucks={this.state.usersBucks}
+                    usersDucks={this.state.usersDucks}
+                    usersBass={this.state.usersBass}
+                    putBuck={(data, id) => this.putBuck(data, id)}
+                    // putBass={(data, id) => this.putBass(data, id)}
+                    // putDucks={(data, id) => this.putBass(data, id)}
+
+                 /> 
 
                         <Grid id="backgroundDiv" style={{width: "100%", height: "auto"}}>
                     STIFF JERE
@@ -289,7 +334,7 @@ class App extends Component {
     
         }
         if(this.state.jwt === 0){
-            return          <Grid>     <div><button onClick={() => this.state.isOpen ? this.setState({component: 'login', isOpen: !this.state.isOpen}) : this.setState({component: '', isOpen: !this.state.isOpen})}> login </button></div>
+            return          <Grid>     <div><button style={{fontSize: "3vw", color: "white", backgroundColor: "green"}} onClick={() => this.state.isOpen ? this.setState({component: 'login', isOpen: !this.state.isOpen}) : this.setState({component: '', isOpen: !this.state.isOpen})}> login </button></div>
             <Grid id="mainScreen">
            
               {this.displayLoginWindow()}
@@ -342,7 +387,7 @@ class App extends Component {
  
 
            <Grid id="backgroundDiv">
-            <Grid style={{overflowY: "scroll"}}>
+            <Grid>
             {this.displayLoggedInDependancyView()}
             </Grid>
              </Grid>

@@ -6,6 +6,9 @@
 
 #notRegistered {
     margin-left: 2rem;
+    font-size: 4vw;
+    background: content-box;
+    color: white;
 }
 
 #trophyCase {
@@ -27,28 +30,47 @@
     width: 75%;
     height: auto;
     margin: 1rem;
+    max-height: 500px;
+    max-width: 500px;
+    font-size: 4vw;
     
 }
 
 #topTrophiesCard {
     background-image: linear-gradient(to bottom, #336720, #40621c, #4a5e1a, #52591b, #57551d, #564b1c, #54421c, #4f3a1d, #422b1a, #321e17, #201311, #0b0303);
     cursor: pointer;
+    font-size: 4vw;
+    
+    
 }
 
 #topTrophiesDetailsCard {
     background-image: linear-gradient(to right bottom, #151c13, #1f2718, #2c331c, #3b3e20, #4c4924, #565223, #605c22, #6a6620, #67721a, #5e8017, #4e8d1c, #2d9b28);
     color: white;
+    font-size: 4vw;
+    
 }
 
 #topTrophiesCardBack {
     background-image: linear-gradient(to top, #073705, #282600, #2a1700, #1e0b05, #000000);
-    height: 300px;
+    height: 400px;
     width: 100%;
     color: white;
-    font-size: medium;
+    font-size: 4vw;
     cursor: pointer;
     
 }
+
+#userBackCard {
+    background-image: linear-gradient(to top, #073705, #282600, #2a1700, #1e0b05, #000000);
+    height: 300px;
+    color: white;
+    font-size: 4vw;
+    cursor: pointer;
+    width: 90%;
+    margin-right: 5%;
+}
+
 
 
 
@@ -61,10 +83,19 @@
 
 #buttonGroup {
     color: gold;
+    font-size: 4vw;
 }
 
 #intro {
    
     padding: 1.5rem;
     
+}
+
+:is(Card, Paper) {
+    font-size: 3vw;
+}
+
+#trophyCase {
+    margin-left: 7%;
 }
