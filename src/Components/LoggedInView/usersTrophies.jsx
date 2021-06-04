@@ -48,13 +48,13 @@ const UsersTrophies = (props) => {
    function selectShowingCase(){
        if (game === 'duck'){
            
-           return props.usersDucks.map(ducks => <UsersGame topGame={ducks} /> )
+           return props.usersDucks.map(ducks => <UsersGame topGame={ducks} putDuck={props.putDuck}/> )
        }
        if (game === 'deer'){
            return props.usersBucks.map(bucks => <UsersGame topGame={bucks} putBuck={props.putBuck} /> )
        }
        if(game === 'bass'){
-           return props.usersBass.map(bass => <UsersGame topGame={bass} /> )
+           return props.usersBass.map(bass => <UsersGame topGame={bass} putBass={props.putBass} /> )
        }
     //    if(game === 'bigMama'){
     //        return usersMama.map(bigMama => <DisplayBigMama trophyMama={bigMama} /> )
@@ -73,7 +73,7 @@ const UsersTrophies = (props) => {
     // leaving this here, for a reminder to come back and work on it in the future, if I decide to.
    
     return (
-        <center>
+        
         <Grid id="trophyCase">
             <header style={{marginBottom: "1rem"}}><u style={{color: "gold"}}>Your Trophy Case</u></header>
             <div id="buttonGroup"> 
@@ -97,7 +97,7 @@ const UsersTrophies = (props) => {
                 </Grid>
                
         </Grid>
-        </center>
+    
 
     );
 }

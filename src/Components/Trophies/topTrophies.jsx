@@ -41,10 +41,12 @@ const TopDisplayCase = (props) => {
     }
    
     return (
-        <center>
+    
         <Grid id="trophyCase">
             <header style={{marginBottom: "1rem"}}><u style={{color: "gold", fontSize: "4vw"}}>Trophy Case</u></header>
+            
             <div id="buttonGroup"> 
+
                 <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
                     <Button style={{fontSize: "3vw", color: "gold"}}  onClick={() => setGame('duck')}>Duck</Button>
                     <Button style={{fontSize: "3vw", color: "gold"}} onClick={() => setGame('deer')}>Deer</Button>
@@ -55,8 +57,6 @@ const TopDisplayCase = (props) => {
                     <Button style={{fontSize: "3vw", color: "gold"}} onClick={() => setGame('bigRackLittleBuck')}>BIG RACK, little buck</Button>
                     <Button style={{fontSize: "3vw", color: "gold"}} onClick={() => setGame('littleBigFoot')}>little Big Foot</Button>
                 </ButtonGroup>
-
-             
           
             </div>
             {(game !== '')}
@@ -65,7 +65,6 @@ const TopDisplayCase = (props) => {
                 </Grid>
                
         </Grid>
-        </center>
 
     );
 }

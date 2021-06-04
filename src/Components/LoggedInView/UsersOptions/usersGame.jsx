@@ -24,13 +24,9 @@ const UsersGame = (props) => {
    })
    
 
-   // I got tired of typing IF statements for these, which was pretty repetitive, and I dont know if it actually saved me any time, but..
-   // Idk... I made it anyways.   This just looks at the incoming prop.game.data to find if they're currently browsing ducks/bucks/bass
-   // depending on which one they're currently browsing, then I put functions I want to run on all 3 of them, but it only runs the one
-   // which is currently being browsed. 
+   //I didn't use this flow controller as much as I felt I was going to when I started it.. probably wasn't worth it. lol..
 
    function flowController(buckFunction, bassFunction, duckFunction){
-     
      
        if(props.topGame.rackpoints !== undefined){
         try{
@@ -52,13 +48,23 @@ const UsersGame = (props) => {
    }
 
 
-   // Depending on which game they're currently browsing/editing, this will sent to my axios PUT request dependant on which one they're on.
+   //yea my flow controller didn't work with this, because props.putGame whichever one wasn't being browsed at the time, was undefined... and it wouldn't 
+   // even let my flow controller figure it out. 
    async function handleSubmit(id){
+       debugger;
        console.log("RUNNING HANDLE SUBMIT:   DATA=", buckData, "id =", id)
+       if (props.putBuck !== undefined){
+           props.putBuck(buckData, id)
+       }
+       if(props.putBass !== undefined){
+           props.putBass(bassData, id)
+       }
+       if(props.putDuck !== undefined){
+           props.putDuck(duckData, id)
+       }
        
-       props.putBuck(buckData, id)
        setToEditor(!isInEditor);
-       //flowController(props.putBuck(buckData, id), props.putBass(bassData, id), props.putDuck(duckData, id))
+       //flowController(props.putBuck(buckData, id), props.putBass(bassData, id), props.putDuck(duckData, id))   no worky work.
     }
 
     
@@ -110,7 +116,7 @@ const UsersGame = (props) => {
     }
 
     // I made this one a constant, and the other ones functions just to test and see how they behave, and to know if they behave differently...
-    // I dont notice a difference, but I never do hit my try in my flowController, it's always a catch. *shrug* still learning...
+    // I dont notice a difference, but I never do hit my try in my flowController(), it's always a catch. *shrug* still learning...
 
     const returnBuckOnChangeValue = 
             <TextField
@@ -154,23 +160,23 @@ const UsersGame = (props) => {
         if(isInEditor === false){
             if(props.topGame.rackpoints !== undefined){
            
-            return <Card id="userBackCard"  onClick={() => setSide(!isFront)}>{props.topGame.weight} lbs <br></br> {props.topGame.rackpoints} rack-points {props.topGame.comments}  </Card>
+            return <Card id="userBackCard"  onClick={() => setSide(!isFront)}>{props.topGame.weight} lbs <br></br> {props.topGame.rackpoints} rack-points <Card id="commentCard">{props.topGame.comments}</Card>  </Card>
             }
             if(props.topGame.isPregnant !== undefined){
                 if(props.topGame.isPregnant === true){
-                    return <Card id="userBackCard"  onClick={() => setSide(!isFront)}>{props.topGame.weight} pound Moma! <Card>{props.topGame.comments}</Card></Card>
+                    return <Card id="userBackCard"  onClick={() => setSide(!isFront)}>{props.topGame.weight} pound Moma! <Card id="commentCard"><header>Comment</header>{props.topGame.comments}</Card></Card>
                 }
-                else return <Card id="userBackCard"  onClick={() => setSide(!isFront)}>{props.topGame.weight} lbs </Card>
+                else return <Card id="userBackCard"  onClick={() => setSide(!isFront)}>{props.topGame.weight} lbs <Card><header>Comment</header>{props.topGame.comments}</Card> </Card>
             }
             if(props.topGame.footsize !== undefined){
-            return <Card id="userBackCard"  onClick={() => setSide(!isFront)}>{props.topGame.weight} lbs with {props.topGame.footsize} inch long feet! <Card>{props.topGame.comments}</Card></Card>
+            return <Card id="userBackCard"  onClick={() => setSide(!isFront)}>{props.topGame.weight} lbs with {props.topGame.footsize} inch long feet! <Card id="commentCard">{props.topGame.comments}</Card></Card>
             }
         }
 
         if(isInEditor === true){
             return (
             <Grid>
-            <Card style={{height: "300px", width: "300px"}}>
+            <Card style={{height: "300px", width: "300px", textAlign: "-webkit-center"}}>
             <form style={{margin: "1rem"}} >
             {flowController(returnBuckOnChangeValue, returnBassOnChangeValue(), returnDuckOnChangeValue())}
                 <ThemeProvider >
@@ -211,7 +217,7 @@ const UsersGame = (props) => {
         <Grid>
             <Grid >
             {isFront ? <Card style={{height: "auto", width: "95%", background: "content-box", marginRight: "10%"}}>
-                             <img src={"http://127.0.0.1:8000"+props.topGame.image} alt="photo of your ducks" onClick={() => setSide(!isFront)} style={{width: "75%", height: "75%", maxHeight: "400px", maxWidth: "400px", marginTop: "1rem" }} />
+                             <img src={"http://127.0.0.1:8000"+props.topGame.image} alt="photo of your ducks" onClick={() => setSide(!isFront)} style={{width: "75%", height: "75%", maxHeight: "400px", maxWidth: "400px", marginTop: "1rem" , border: "groove"}} />
                       </Card>   : 
                        <Card style={{fontSize: "4vw", width: "95%", height: "auto", marginTop: "1rem", background: "content-box"}}>
                            

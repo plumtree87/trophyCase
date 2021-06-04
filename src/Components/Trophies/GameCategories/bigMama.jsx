@@ -39,15 +39,15 @@ const DisplayBigMama = (props) => {
            {isFront ? 
            <Button onClick={() => selectGeoCodingSide()}> 
 
-           { locationSide ? <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>USER DETAILS</h8> 
-           : <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>LOCATION</h8> }
+           { locationSide ? <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>USER DETAILS</h4> 
+           : <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>LOCATION</h4> }
 
            {locationSide ? <Card style={{textAlign: "right", fontSize: "3vw", marginRight: "3rem"}}>Click to see Location</Card> : <Card>Click to see Champ Details</Card> }
            </Button>  : 
            <Button onClick={() => selectDetailSide()}>
             
-           { detailSide ? <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Record BigMama</h8> 
-           : <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Rules to Win</h8> }
+           { detailSide ? <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Record BigMama</h4> 
+           : <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Rules to Win</h4> }
 
 
            {detailSide ? <Card>Click to see Rules</Card> : <Card>Click to see Record Mama</Card>}

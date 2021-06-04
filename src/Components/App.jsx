@@ -161,7 +161,13 @@ class App extends Component {
             usersDucks: response.data
         })
 
-       }
+    }
+
+    async putDuck(data, pk){
+    
+        let response = await axios.put(`http://127.0.0.1:8000/api/usersDucks/${pk}`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt}})
+        this.getUsersDucks();
+    }
 
     
 
@@ -171,9 +177,10 @@ class App extends Component {
     // BUCKS           BUCKS            BUCKS              BUCKS                 BUCKS              BUCKS     
 
     sortByRackPoints(data){
-        let max = data[0].rackpoints;
+        let max = data[0];
         for(let i = 0; i < data.length; i++){
             if(data[i].rackpoints > max){
+                
                 max = data[i];
             }
         }
@@ -200,7 +207,7 @@ class App extends Component {
         this.setState({
             bigRackLittleBuck: bigRack
         })
-     
+        console.log(this.state.bigRackLittleBuck, "BIG RACK LITTLE BUCK IS HERE< <<<<<")
 
 
        
@@ -282,7 +289,14 @@ class App extends Component {
         this.setState({
             usersBass: response.data
         })
-       }
+    }
+
+    async putBass(data, pk){
+    
+        let response = await axios.put(`http://127.0.0.1:8000/api/usersBass/${pk}`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt}})
+        this.getUsersBass();
+    }
+
 
     
     // <<<<<<<<<<<<<<<<<<<<<<<<<    all axios requests and ther pertaining functions between these comments < UP FROM HERE  >>>>>>>>>>>>>>>>>/// 
@@ -320,8 +334,8 @@ class App extends Component {
                     usersDucks={this.state.usersDucks}
                     usersBass={this.state.usersBass}
                     putBuck={(data, id) => this.putBuck(data, id)}
-                    // putBass={(data, id) => this.putBass(data, id)}
-                    // putDucks={(data, id) => this.putBass(data, id)}
+                    putBass={(data, id) => this.putBass(data, id)}
+                    putDuck={(data, id) => this.putDuck(data, id)}
 
                  /> 
 
@@ -334,7 +348,7 @@ class App extends Component {
     
         }
         if(this.state.jwt === 0){
-            return          <Grid>     <div><button style={{fontSize: "3vw", color: "white", backgroundColor: "green"}} onClick={() => this.state.isOpen ? this.setState({component: 'login', isOpen: !this.state.isOpen}) : this.setState({component: '', isOpen: !this.state.isOpen})}> login </button></div>
+            return          <Grid>     <div style={{marginBottom: "-5rem"}}><button style={{fontSize: "3vw", color: "white", backgroundColor: "green"}} onClick={() => this.state.isOpen ? this.setState({component: 'login', isOpen: !this.state.isOpen}) : this.setState({component: '', isOpen: !this.state.isOpen})}> login </button></div>
             <Grid id="mainScreen">
            
               {this.displayLoginWindow()}

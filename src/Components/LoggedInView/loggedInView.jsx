@@ -27,6 +27,8 @@ const LoggedInView = (props) => {
             usersBucks={props.usersBucks}
             usersBass={props.usersBass}
             putBuck={props.putBuck}
+            putBass={props.putBass}
+            putDuck={props.putDuck}
              />
        }
        if(userChoice === 'registerTrophy'){
@@ -42,6 +44,7 @@ const LoggedInView = (props) => {
    });
 
     return (
+        
         <Grid >
                        <ButtonGroup variant="text" color="primary" aria-label="text primary button group"  id="buttonGroup" style={{width: "100%"}}>
                     <Button style={{fontSize: "3vw", color: "gold"}}  onClick={() => setChoice('usersTrophies')}>Your Trophies</Button>
@@ -52,7 +55,7 @@ const LoggedInView = (props) => {
                     {selectView()}
                 </Grid>
         </Grid>
-    
+     
   
 
     );

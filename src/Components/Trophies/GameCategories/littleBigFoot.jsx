@@ -36,15 +36,15 @@ const DisplayLittleBigFoot = (props) => {
            {isFront ? 
            <Button onClick={() => selectGeoCodingSide()}> 
 
-           { locationSide ? <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>USER DETAILS</h8> 
-           : <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>LOCATION</h8> }
+           { locationSide ? <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>USER DETAILS</h4> 
+           : <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>LOCATION</h4> }
 
            {locationSide ? <Card style={{textAlign: "right"}}>Click for Location</Card> : <Card style={{fontSize: "3vw"}}>Click for Champ Details</Card> }
            </Button>  : 
            <Button onClick={() => selectDetailSide()}>
             
-           { detailSide ? <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Record BigFoot</h8> 
-           : <h8 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Rules to Win</h8> }
+           { detailSide ? <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Record BigFoot</h4> 
+           : <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Rules to Win</h4> }
 
 
            {detailSide ? <Card>Click for Rules</Card> : <Card>Click for Record BigFoot</Card>}
