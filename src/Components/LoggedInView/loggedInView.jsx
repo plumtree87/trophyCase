@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Grid, Form, TextField, ThemeProvider } from '@material-ui/core';
 import { Button, ButtonGroup } from '@material-ui/core';
 import UsersTrophies from './usersTrophies'
-
+import RegisterTrophy from './UsersOptions/registerTrophy'
 
 const LoggedInView = (props) => {
 
@@ -32,7 +32,9 @@ const LoggedInView = (props) => {
              />
        }
        if(userChoice === 'registerTrophy'){
-           console.log("CLICKED ON REGISTER TROPHY")
+           return <RegisterTrophy
+
+           />
             
        }
    }
@@ -48,7 +50,7 @@ const LoggedInView = (props) => {
         <Grid >
                        <ButtonGroup variant="text" color="primary" aria-label="text primary button group"  id="buttonGroup" style={{width: "100%"}}>
                     <Button style={{fontSize: "3vw", color: "gold"}}  onClick={() => setChoice('usersTrophies')}>Your Trophies</Button>
-                    <Button style={{fontSize: "3vw", color: "gold"}} onClick={() => setChoice('registerTrophy')}>Something here</Button>
+                    <Button style={{fontSize: "3vw", color: "gold"}} onClick={() => setChoice('registerTrophy')}>Register Trophies</Button>
                     <Button style={{fontSize: "3vw", color: "gold"}} onClick={() => setChoice('littleBigFoot')}>Something Here</Button>
                 </ButtonGroup>
                 <Grid>

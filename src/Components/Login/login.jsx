@@ -32,7 +32,8 @@ const Login = (props) => {
         password: user.password,
         }
 
-        props.loginUser(user)
+       props.loginUser(user)
+   
     }
     
     const onChangeEmail = (e) => {
@@ -45,6 +46,10 @@ const Login = (props) => {
         setUser({
           ...user, password: e.target.value
         })
+    }
+
+    function unsetRegister(){
+        setRegister(false)
     }
     
     
@@ -88,7 +93,8 @@ const Login = (props) => {
         )
         }}
         if (register === true){
-            return <Register registerUser={props.registerUser} />
+            return <Register registerUser={props.registerUser}
+                              register = {() => unsetRegister()} />
         }
    };
 

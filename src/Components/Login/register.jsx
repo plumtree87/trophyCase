@@ -48,8 +48,17 @@ class Register extends Component {
           profile : profile
         });
       
-      }
+    }
 
+    async getResponse(user){
+        let response = await this.props.registerUser(user)
+        console.log(response)
+        if(response === 'ok'){
+            alert("Successfully Registered. Go ahead and login!")
+            this.props.register();
+        }
+        
+    }
 
     handleSubmit(event) {
         event.preventDefault();
@@ -60,7 +69,8 @@ class Register extends Component {
 
         }
    
-        this.props.registerUser(user);
+        this.getResponse(user);
+        
         
         this.setState({
             profile: {

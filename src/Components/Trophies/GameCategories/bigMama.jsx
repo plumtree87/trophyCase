@@ -42,7 +42,7 @@ const DisplayBigMama = (props) => {
            { locationSide ? <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>USER DETAILS</h4> 
            : <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>LOCATION</h4> }
 
-           {locationSide ? <Card style={{textAlign: "right", fontSize: "3vw", marginRight: "3rem"}}>Click to see Location</Card> : <Card>Click to see Champ Details</Card> }
+           {locationSide ? <h4>Click to see Location</h4> : <h4>Click to see Champ Details</h4> }
            </Button>  : 
            <Button onClick={() => selectDetailSide()}>
             
@@ -50,7 +50,7 @@ const DisplayBigMama = (props) => {
            : <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Rules to Win</h4> }
 
 
-           {detailSide ? <Card>Click to see Rules</Card> : <Card>Click to see Record Mama</Card>}
+           {detailSide ? <h4>Click to see Rules</h4> : <h4>Click to see Record Mama</h4>}
            </Button> }
 
         <ReactCardFlip isFlipped={isFront} flipDirection='vertical'>

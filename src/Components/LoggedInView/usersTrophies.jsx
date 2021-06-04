@@ -27,24 +27,6 @@ const UsersTrophies = (props) => {
 
 
 
-   async function getUsersDucks(){
-    let response = await axios.get('http://127.0.0.1:8000/api/usersDucks/', {headers: {Authorization: 'Bearer ' + props.jwt}})
-    setUsersDucks(response.data)
-  
-   }
-   async function getUsersBucks(){
-    let response = await axios.get('http://127.0.0.1:8000/api/usersBucks/', {headers: {Authorization: 'Bearer ' + props.jwt}})
-    setUsersBucks(response.data)
-   
-   }
-   async function getUsersBass(){
-    let response = await axios.get('http://127.0.0.1:8000/api/usersBass/', {headers: {Authorization: 'Bearer ' + props.jwt}})
-    setUsersBass(response.data)
-   
-   }
-
-
-
    function selectShowingCase(){
        if (game === 'duck'){
            

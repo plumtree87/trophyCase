@@ -41,14 +41,14 @@ const DisplayBigRackLittleBuck = (props) => {
                     style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>LOCATION</h4> }
 
            {locationSide ? 
-           <Card style={{textAlign: "right", fontSize: "3vw", marginRight: "3rem"}}>Click to see Location</Card> : <Card>Click for Champ Details</Card> } </Button>  : <Button onClick={() => selectDetailSide()}>
+           <h4>Click to see Location</h4> : <h4>Click for Champ Details</h4> } </Button>  : <Button onClick={() => selectDetailSide()}>
             
            { detailSide ? 
            <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Record BigRack lil'buck</h4> : <h4
                style={{textAlign: "left", fontSize: "3vw", marginRight: "2rem"}}>Rules to Win</h4> }
 
 
-           {detailSide ? <Card>Click for Rules</Card> : <Card>Click for Record BRLB</Card>}
+           {detailSide ? <h4> Click for Rules</h4> : <h4>Click for Record BRLB</h4>}
            </Button> }
 
         <ReactCardFlip isFlipped={isFront} flipDirection='vertical'>

@@ -39,7 +39,7 @@ const DisplayLittleBigFoot = (props) => {
            { locationSide ? <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>USER DETAILS</h4> 
            : <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>LOCATION</h4> }
 
-           {locationSide ? <Card style={{textAlign: "right"}}>Click for Location</Card> : <Card style={{fontSize: "3vw"}}>Click for Champ Details</Card> }
+           {locationSide ? <h4>Click for Location</h4> : <h4>Click for Champ Details</h4> }
            </Button>  : 
            <Button onClick={() => selectDetailSide()}>
             
@@ -47,7 +47,7 @@ const DisplayLittleBigFoot = (props) => {
            : <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Rules to Win</h4> }
 
 
-           {detailSide ? <Card>Click for Rules</Card> : <Card>Click for Record BigFoot</Card>}
+           {detailSide ? <h4>Click for Rules</h4> : <h4>Click for Record BigFoot</h4>}
            </Button> }
 
         <ReactCardFlip isFlipped={isFront} flipDirection='vertical'>

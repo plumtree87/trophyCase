@@ -113,17 +113,29 @@ class App extends Component {
     }
 
     async registerUser(data){
-    
-        let response = await axios.post('http://127.0.0.1:8000/api/signup', data)
+        try {
+            let response = await axios.post('http://127.0.0.1:8000/api/signup', data)
+            console.log(response, "RESPONSEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+            console.log(response.status)
+            return 'ok'
+        }
+        catch{
+            
+            alert("Either this email is already taken, or the phone number you chose has already been used to create an account.")
+        }
    
     }
     //DUCKS       DUCKS         DUCKS       DUCKS       DUCKS          DUCKS 
 
     sortByFootSize(data){
-     
-        let bigFoot = data.sort(function(a, b){return b.footsize-a.footsize});
+        console.log(data)
+        if(data.length < 2){
         
-        return bigFoot[0]
+            return data
+        }
+        let bigFoot = data.sort(function(a, b){return b.footsize-a.footsize});
+     
+        return [bigFoot[0]]
      
     }
 
@@ -135,6 +147,7 @@ class App extends Component {
         })
        
         let descendingOrder = this.sortWeightDescending(response.data)
+
         //descendingOrder.length=5;            // set to 5 for testing, ultimately will set to show top 100.
         this.setState({
             topDucks: descendingOrder
@@ -144,6 +157,7 @@ class App extends Component {
         this.setState({
             bigFoot: setBigFoot
         })
+     
      
 
 
@@ -196,16 +210,19 @@ class App extends Component {
             bucks: response.data
         })
         let descendingOrder = this.sortWeightDescending(response.data)
+        let dOrder = this.sortWeightDescending(this.state.bucks)
+        console.log(dOrder)
+        console.log(descendingOrder, "DESCENDIGN ORDER HERE FOOL")
         //descendingOrder.length=5;            // set to 5 for testing, ultimately will set to show top 100.
         this.setState({
             topBucks: descendingOrder
         })
-        let ascendingOrder = this.sortWeightAscending(this.state.topBucks)
+        let ascendingOrder = this.sortWeightAscending(response.data)
   
         
         let bigRack = this.sortByRackPoints(ascendingOrder)
         this.setState({
-            bigRackLittleBuck: bigRack
+            bigRackLittleBuck: [bigRack]
         })
         console.log(this.state.bigRackLittleBuck, "BIG RACK LITTLE BUCK IS HERE< <<<<<")
 
@@ -338,10 +355,6 @@ class App extends Component {
                     putDuck={(data, id) => this.putDuck(data, id)}
 
                  /> 
-
-                        <Grid id="backgroundDiv" style={{width: "100%", height: "auto"}}>
-                    STIFF JERE
-                </Grid>
         
             </Grid>
 
@@ -361,7 +374,7 @@ class App extends Component {
             trophyBass = {this.state.topBass}
             trophyMama = {this.state.bigMama}
             trophyLittleBigFoot = {this.state.bigFoot}
-            trophyBigRackLittleBuck = {this.state.bigRackLittleBuck}
+            trophyBigRack = {this.state.bigRackLittleBuck}
             />
        
             

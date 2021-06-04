@@ -25,8 +25,12 @@
 
 :is(h1, h2, h3, h4, h5, h6) {
     margin: 2rem;
-    font-size: 5vw;
+    font-size: 3vw;
+    margin-top: 1rem;
+    min-inline-size: fit-content;
 }
+
+
 
 #topTrophies {
     width: 75%;
@@ -44,6 +48,7 @@
     font-size: 4vw;
     padding-bottom: 7px;
     border-style: inset;
+    margin-top: 1rem;
     
     
 }
@@ -53,6 +58,7 @@
     color: white;
     font-size: 4vw;
     border-style: inset;
+ 
     
 }
 
@@ -65,6 +71,8 @@
     cursor: pointer;
     padding-bottom: 7px;
     border-bottom-style: double;
+    margin-top: 1rem;
+  
     
 }
 
@@ -103,9 +111,6 @@
     
 }
 
-:is(Card, Paper) {
-    font-size: 3vw;
-}
 
 #html {
     background-image: radial-gradient(circle, #0e7328, #286b21, #33621c, #3a5a1a, #3e5219, #354a1b, #2d431d, #263b1d, #18301d, #0e251b, #081a16, #010d0c);
@@ -116,6 +121,15 @@
 
 .MuiButton-label {
     font-size: 3.5vw;
+    align-self: baseline;
+    
+}
+
+.MuiButton-root{
+    margin-bottom: 0.7rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    margin-top: 3rem;
 }
 
 .MuiButton-text {
@@ -123,12 +137,12 @@
 }
 
 .MuiCard-root {
-    margin-top: 1rem;
     width: 98%;
+    margin-top: 4rem;
 }
 
 .MuiGrid-root {
-    margin-top: 0.8rem;
+    margin-top: 3rem;
 }
 
 .button {
