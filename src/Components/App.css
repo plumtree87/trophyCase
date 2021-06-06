@@ -58,6 +58,7 @@
     color: white;
     font-size: 4vw;
     border-style: inset;
+    margin-top: 1rem;
  
     
 }
@@ -71,7 +72,7 @@
     cursor: pointer;
     padding-bottom: 7px;
     border-bottom-style: double;
-    margin-top: 1rem;
+    margin-top: 2rem;
   
     
 }
@@ -120,7 +121,7 @@
 
 
 .MuiButton-label {
-    font-size: 3.5vw;
+ 
     align-self: baseline;
     
 }
@@ -143,6 +144,7 @@
 
 .MuiGrid-root {
     margin-top: 3rem;
+    
 }
 
 .button {
@@ -151,4 +153,29 @@
 
 .input {
     border: outset;
+}
+
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+#registerForm {
+
+    text-align: center;
+    text-align-last: center;
+    background-color: gold;
+    width: 320px;
+    height: 400px;
+    margin-right: 1rem;
+
+}
+
+div#registrationForm.MuiGrid-root {
+    text-align: -webkit-center;
+}
+
+div.MuiGrid-root {
+    text-align: -webkit-center;
 }

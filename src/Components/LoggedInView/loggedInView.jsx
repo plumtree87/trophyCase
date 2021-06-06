@@ -32,7 +32,13 @@ const LoggedInView = (props) => {
              />
        }
        if(userChoice === 'registerTrophy'){
+           console.log(props.user)
+           console.log("REGISTER TROPHY VIEW IS SUPPOSE TO BE RENDERING...")
            return <RegisterTrophy
+           user = {props.user}
+           postDuck = {props.postDuck}
+           postBuck = {props.postBuck}
+           postBass = {props.postBass}
 
            />
             
@@ -51,7 +57,7 @@ const LoggedInView = (props) => {
                        <ButtonGroup variant="text" color="primary" aria-label="text primary button group"  id="buttonGroup" style={{width: "100%"}}>
                     <Button style={{fontSize: "3vw", color: "gold"}}  onClick={() => setChoice('usersTrophies')}>Your Trophies</Button>
                     <Button style={{fontSize: "3vw", color: "gold"}} onClick={() => setChoice('registerTrophy')}>Register Trophies</Button>
-                    <Button style={{fontSize: "3vw", color: "gold"}} onClick={() => setChoice('littleBigFoot')}>Something Here</Button>
+                    <Button style={{fontSize: "3vw", color: "gold"}} onClick={() => setChoice('shop')}>Shop</Button>
                 </ButtonGroup>
                 <Grid>
                     {selectView()}

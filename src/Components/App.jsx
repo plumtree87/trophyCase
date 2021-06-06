@@ -24,12 +24,13 @@ class App extends Component {
         topBucks: [],
         topDucks: [],
         topDeer: [],
-        user: [],
+        user: {},
         status: '',
         jwt: 0,
         usersBucks: [],
         usersDucks: [],
         usersBass: [],
+        currentUser: '',
 
 
 
@@ -38,11 +39,11 @@ class App extends Component {
     componentDidMount(){
         
            this.getTopDucks();
-      
+
         
            this.getTopBass();
            this.getTopBucks();
-           // this.getToken()
+           //
 
         
        
@@ -78,10 +79,13 @@ class App extends Component {
     // USER            USER             USER            USER            USER
     async getUser(e){
 
-        let response = await axios.get('http://127.0.0.1:8000/profile/')
+        let response = await axios.get('http://127.0.0.1:8000/api/profile/', {headers: {Authorization: 'Bearer ' + this.state.jwt}})
+ 
+        console.log(response.data, "response.data from getUser()" )
         this.setState({
-            user: response.data
+            currentUser: response.data.data[0].user_id
         })
+
 
        
     }
@@ -89,16 +93,21 @@ class App extends Component {
     async loginUser(data){
         try {
             let response = await axios.post('http://127.0.0.1:8000/api/signin', data)
-      
-      
             this.setState({
                 status: response.status,
-                jwt: response.data.token
+                jwt: response.data.token,
+
+                
             })
-        
+      
+
+            this.getUser();
             this.getUsersDucks();
             this.getUsersBucks();
             this.getUsersBass();
+
+           
+           
 
                 
             
@@ -115,8 +124,7 @@ class App extends Component {
     async registerUser(data){
         try {
             let response = await axios.post('http://127.0.0.1:8000/api/signup', data)
-            console.log(response, "RESPONSEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
-            console.log(response.status)
+          
             return 'ok'
         }
         catch{
@@ -128,7 +136,7 @@ class App extends Component {
     //DUCKS       DUCKS         DUCKS       DUCKS       DUCKS          DUCKS 
 
     sortByFootSize(data){
-        console.log(data)
+     
         if(data.length < 2){
         
             return data
@@ -164,8 +172,10 @@ class App extends Component {
     }
 
     async postDucks(data){
-
-        let response = await axios.post('http://127.0.0.1:8000/api/ducks/', data)
+        console.log(data, "POST DUCKS DATA")
+        let response = await axios.post('http://127.0.0.1:8000/api/ducks/', data, {headers: {Authorization: 'Bearer ' + this.state.jwt}})
+        console.log(response, "postDucks, repsonse")
+        this.getUsersDucks();
 
     }
 
@@ -211,8 +221,7 @@ class App extends Component {
         })
         let descendingOrder = this.sortWeightDescending(response.data)
         let dOrder = this.sortWeightDescending(this.state.bucks)
-        console.log(dOrder)
-        console.log(descendingOrder, "DESCENDIGN ORDER HERE FOOL")
+    
         //descendingOrder.length=5;            // set to 5 for testing, ultimately will set to show top 100.
         this.setState({
             topBucks: descendingOrder
@@ -224,7 +233,7 @@ class App extends Component {
         this.setState({
             bigRackLittleBuck: [bigRack]
         })
-        console.log(this.state.bigRackLittleBuck, "BIG RACK LITTLE BUCK IS HERE< <<<<<")
+       
 
 
        
@@ -235,7 +244,7 @@ class App extends Component {
 
     async postBucks(data){
     
-        let response = await axios.post(`http://127.0.0.1:8000/bucks/`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt}} )
+        let response = await axios.post(`http://127.0.0.1:8000/api/bucks/`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt}} )
      
     }
     
@@ -297,7 +306,7 @@ class App extends Component {
 
     async postBass(data){
  
-        let response = await axios.post('http://127.0.0.1:8000/bass/', data)
+        let response = await axios.post('http://127.0.0.1:8000/bass/', data, {headers: {Authorization: 'Bearer ' + this.state.jwt}})
   
     }
 
@@ -343,6 +352,8 @@ class App extends Component {
 
     displayLoggedInDependancyView() {
         if(this.state.jwt !== 0){
+            
+         
 
             return    <Grid>   
                 <LoggedInView 
@@ -353,6 +364,10 @@ class App extends Component {
                     putBuck={(data, id) => this.putBuck(data, id)}
                     putBass={(data, id) => this.putBass(data, id)}
                     putDuck={(data, id) => this.putDuck(data, id)}
+                    postDuck={(data) => this.postDucks(data)}
+                    postBuck={(data) => this.postBucks(data)}
+                    postBass={(data) => this.postBucks(data)}
+                    user={this.state.currentUser}
 
                  /> 
         
