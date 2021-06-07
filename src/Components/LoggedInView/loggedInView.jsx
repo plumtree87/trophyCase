@@ -41,6 +41,7 @@ const LoggedInView = (props) => {
            postBass = {props.postBass}
 
            />
+           
             
        }
    }

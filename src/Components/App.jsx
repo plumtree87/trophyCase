@@ -376,7 +376,7 @@ class App extends Component {
     
         }
         if(this.state.jwt === 0){
-            return          <Grid>     <div style={{marginBottom: "-5rem"}}><button style={{fontSize: "3vw", color: "white", backgroundColor: "green"}} onClick={() => this.state.isOpen ? this.setState({component: 'login', isOpen: !this.state.isOpen}) : this.setState({component: '', isOpen: !this.state.isOpen})}> login </button></div>
+            return          <Grid>     <div style={{marginBottom: "-5rem", textAlign: "initial"}}><button style={{fontSize: "3vw", color: "white", backgroundColor: "green"}} onClick={() => this.state.isOpen ? this.setState({component: 'login', isOpen: !this.state.isOpen}) : this.setState({component: '', isOpen: !this.state.isOpen})}> login </button></div>
             <Grid id="mainScreen">
            
               {this.displayLoginWindow()}

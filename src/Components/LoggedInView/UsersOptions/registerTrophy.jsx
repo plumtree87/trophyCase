@@ -17,6 +17,7 @@ const RegisterTrophy = (props) => {
         image: null,
         user: props.user,
         prize: 0,
+        video_id: '',
 
     })
 
@@ -62,6 +63,12 @@ const RegisterTrophy = (props) => {
         })
        
     }   
+    const onChangeVideoId = (e) => {
+        setGame({
+            ...game, video_id: e.target.value
+        })
+        
+    }
     const onChangeSpecialAttribute = (e) => {
         setGame({
             ...game, specialAttribute: e.target.value
@@ -143,6 +150,7 @@ const RegisterTrophy = (props) => {
         image: game.image,
         user: game.user,
         prize: 0,
+        video_id: game.video_id,
 
     } 
 
@@ -153,6 +161,7 @@ const RegisterTrophy = (props) => {
         image: game.image,
         user: game.user,
         prize: 0,
+        video_id: game.video_id,
 
     }
 
@@ -163,6 +172,7 @@ const RegisterTrophy = (props) => {
         image: game.image,
         user: game.user,
         prize: 0,
+        video_id: game.video_id,
     }
 
 
@@ -208,8 +218,20 @@ const RegisterTrophy = (props) => {
                         onChange={onChangeComment}
                         
                     />
+                     <TextField
+                        label="youtube video id "
+                        variant="outlined"
+                        id="mui-theme-provider-outlined-input"
+                        name="video_id"
+                        onChange={onChangeVideoId}
+                        
+                    />
+                    {gameTypeDependantDisplay()}
                 </ThemeProvider>
-                {gameTypeDependantDisplay()}
+         
+
+                
+               
               
                 <input type="file" name="file" onChange={fileChangeHandler}/>
     
@@ -217,6 +239,9 @@ const RegisterTrophy = (props) => {
             </form>
             <div>  <input type="submit" value="Submit" style={{marginRight: "1rem", marginTop: "1rem"}} onClick={handleSubmit} />
               </div>
+              <p style={{fontSize: "2vh"}}> Example, https://www.youtube.com/watch?v=KQPs_1Ag29w  <br></br>
+                 everything after ?v=COPY  and paste into video id.
+                </p>
         
         </Grid>
     );

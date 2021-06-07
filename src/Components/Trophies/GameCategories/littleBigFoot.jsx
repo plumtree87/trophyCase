@@ -9,9 +9,11 @@ const DisplayLittleBigFoot = (props) => {
     const [isFront, setSide] = useState(false);
     const [detailSide, setDetail] = useState(true);
     const [locationSide, setLocation] = useState(false);
+    const videoSrc = `https://www.youtube.com/embed/${props.trophyBigFoot.video_id}`;
 
    useEffect(() =>{
        console.log('Use Effect running')
+       console.log(props.trophyBigFoot)
    });
 
 
@@ -37,9 +39,9 @@ const DisplayLittleBigFoot = (props) => {
            <Button onClick={() => selectGeoCodingSide()}> 
 
            { locationSide ? <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>USER DETAILS</h4> 
-           : <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>LOCATION</h4> }
+           : <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Video</h4> }
 
-           {locationSide ? <h4>Click for Location</h4> : <h4>Click for Champ Details</h4> }
+           {locationSide ? <h4>Click for Video</h4> : <h4>Click for Champ Details</h4> }
            </Button>  : 
            <Button onClick={() => selectDetailSide()}>
             
@@ -73,7 +75,8 @@ const DisplayLittleBigFoot = (props) => {
        <Card id="topTrophiesCardBack" onClick={handleClick} style={{overflowY: "scroll"}}>
         {locationSide ?  <h4> {props.trophyBigFoot.comments}   USERNAME, FNAME LASTNAME, DATE RECORDED.  </h4> : <h4>
 
-            LOCATION FOUND GOES HERE
+        <iframe width="560" height="315" src={videoSrc} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          
         </h4> }
 
         

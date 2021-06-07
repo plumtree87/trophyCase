@@ -10,7 +10,7 @@ const DisplayBigMama = (props) => {
     const [isFront, setSide] = useState(false);
     const [detailSide, setDetail] = useState(true);
     const [locationSide, setLocation] = useState(false);
-  
+    const videoSrc = `https://www.youtube.com/embed/${props.trophyMama.video_id}`;
 
 
     useEffect(() =>{
@@ -40,9 +40,9 @@ const DisplayBigMama = (props) => {
            <Button onClick={() => selectGeoCodingSide()}> 
 
            { locationSide ? <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>USER DETAILS</h4> 
-           : <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>LOCATION</h4> }
+           : <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Video</h4> }
 
-           {locationSide ? <h4>Click to see Location</h4> : <h4>Click to see Champ Details</h4> }
+           {locationSide ? <h4><b>Click for Video</b></h4> : <h4>Click to see Champ Details</h4> }
            </Button>  : 
            <Button onClick={() => selectDetailSide()}>
             
@@ -78,7 +78,7 @@ const DisplayBigMama = (props) => {
        <Card id="topTrophiesCardBack" onClick={handleClick} style={{overflowY: "scroll"}}>
         {locationSide ?  <h4> {props.trophyMama.comments}   USERNAME, FNAME LASTNAME, DATE RECORDED.  </h4> : <h4>
 
-            LOCATION FOUND GOES HERE
+        <iframe width="560" height="315" src={videoSrc} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </h4> }
 
         
