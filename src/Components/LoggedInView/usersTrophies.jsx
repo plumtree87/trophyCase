@@ -77,7 +77,7 @@ const UsersTrophies = (props) => {
             <Grid style={{height: "400px", overflowY: "scroll"}}>
                 {selectShowingCase()}
                 </Grid>
-               
+      
         </Grid>
     
 

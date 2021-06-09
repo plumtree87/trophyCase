@@ -19,13 +19,13 @@ const TopDisplayCase = (props) => {
 
    function selectShowingCase(){
        if (game === 'duck'){
-           return props.trophyDucks.map(ducks => <DisplayGame topGame={ducks} />)
+           return props.trophyDucks.map(ducks => <DisplayGame topGame={ducks} getVenues={props.getVenues} />)
        }
        if (game === 'deer'){
-           return props.trophyBucks.map(bucks => <DisplayGame topGame={bucks}/>)
+           return props.trophyBucks.map(bucks => <DisplayGame topGame={bucks} getVenues={props.getVenues}/>)
        }
        if(game === 'bass'){
-           return props.trophyBass.map(bass => <DisplayGame topGame={bass} />)
+           return props.trophyBass.map(bass => <DisplayGame topGame={bass} getVenues={props.getVenues}/>)
        }
        if(game === 'bigMama'){
            return props.trophyMama.map(bigMama => <DisplayBigMama trophyMama={bigMama} />)

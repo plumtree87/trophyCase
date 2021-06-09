@@ -63,6 +63,7 @@ const LoggedInView = (props) => {
                 <Grid>
                     {selectView()}
                 </Grid>
+             
         </Grid>
      
   
