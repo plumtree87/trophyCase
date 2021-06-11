@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, createRef } from 'react'
 import { Grid, Button, Card } from '@material-ui/core';
 import ReactCardFlip from 'react-card-flip';
+import axios from 'axios'
 // the props for this component are passed in from main app into <TopDisplayCase />, and from topTrophies.jsx to here.  
 
 const DisplayBigRackLittleBuck = (props) => {
 
     const [isFront, setSide] = useState(false);
     const [detailSide, setDetail] = useState(true);
-    const [locationSide, setLocation] = useState(false);
+    const [locationSide, setLocationSide] = useState(false);
+    const [location, setLocation] = useState({lat: 39, lng: 150})
+    var myRef = new React.createRef();
     const videoSrc = `https://www.youtube.com/embed/${props.trophyBigRackLittleBuck.video_id}`;
 
    useEffect(() =>{
@@ -26,23 +29,71 @@ const DisplayBigRackLittleBuck = (props) => {
 
     }
     
-    function selectGeoCodingSide(){
-        setLocation(!locationSide)
+    function selectGeoCodingSide(data){
+        setLocationSide(!locationSide)
+       // if(locationSide === true){
+            geocode(data);
+       // }
+        
     }
+
+    async function geocode(props){
+        console.log(props, "props")
+        var location = props;
+        let response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyC3CR7HFXvYhJDemaEE5f82ZvH7SUb8GDQ`)
+     
+        setLocation(response.data.results[0]['geometry'].location)
+        
+      }
+       
+  
+      function loadScript(url) {
+        var index = window.document.getElementsByTagName('script')[0]
+        var script = window.document.createElement('script')
+        script.src = url
+        script.async = true
+        script.defer = true
+        index.parentNode.insertBefore(script, index)
+      }
+  
+      const initMap = () => {
+  
+        var map = new window.google.maps.Map(myRef.current, {
+          center: location,
+          zoom: 8,
+          
+        });
+        //delete these pins later, they were just required for user stories, but dont really want to show people's pins 
+        // in case they actually put the full location of their secret fishing spot, or some private hunting ground,
+        // and then strangers come to hunt or fish there.  It's better to just display general county 
+        var marker = new window.google.maps.Marker({
+          position : new window.google.maps.LatLng(location['lat'], location['lng']),
+          map: map
+        })
+  
+      }
+  
+      const renderMap = () => {
+  
+        console.log(location)
+        
+        loadScript(`https://maps.googleapis.com/maps/api/js?key=AIzaSyC3CR7HFXvYhJDemaEE5f82ZvH7SUb8GDQ&callback=initMap`)
+        window.initMap = initMap
+      }
 
     return (
         
         <Grid><Card>
 
            {isFront ? 
-           <Button onClick={() => selectGeoCodingSide()}> 
+           <Button onClick={() => selectGeoCodingSide(props.trophyBigRackLittleBuck.address)}> 
 
            { locationSide ? 
-           <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>USER DETAILS</h4> : <h4 
+           <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Location</h4> : <h4 
                     style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Video</h4> }
 
            {locationSide ? 
-           <h4>Click for Video</h4> : <h4>Click for Champ Details</h4> } </Button>  : <Button onClick={() => selectDetailSide()}>
+           <h4>Click for Video</h4> : <h4>Click for Location</h4> } </Button>  : <Button onClick={() => selectDetailSide()}>
             
            { detailSide ? 
            <h4 style={{textAlign: "left", fontSize: "3vw", marginRight: "3rem"}}>Record BigRack lil'buck</h4> : <h4
@@ -78,7 +129,7 @@ const DisplayBigRackLittleBuck = (props) => {
        </Card>
        <Card id="topTrophiesCardBack" onClick={handleClick} style={{overflowY: "scroll"}}>
         {locationSide ?
-          <h4> {props.trophyBigRackLittleBuck.comments}   USERNAME, FNAME LASTNAME, DATE RECORDED.  </h4> : <h4>
+            <div id="map" ref={myRef} style={{height: "50vh", width: "100%", overflowY: "scroll"}}> {renderMap()}  </div> : <h4>
           <div id="myIframe">
           <iframe id="innerIframe" width="560" height="315" src={videoSrc} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>

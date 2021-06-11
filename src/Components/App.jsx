@@ -66,14 +66,16 @@ class App extends Component {
     //  {headers: {Authorization: 'Bearer ' + this.state.jwt}}
 
     sortWeightDescending(data){
-  
+        console.log(data)
         let sorted = data.sort(function(a, b){return b.weight-a.weight});
+        console.log(sorted, "sorted descending")
    
         return sorted;
     }
     sortWeightAscending(data){
 
         let sorted = data.sort(function(a, b){return a.weight-b.weight});
+        console.log(sorted, "sorted ascending")
         return sorted;
     }
 
@@ -192,15 +194,14 @@ class App extends Component {
 
  
     async getAnotherProfileDucks(data){
-        console.log("entered getAnotherProfileDucks() at line 194 of game.jsx")
+     
         let profileDucks = this.state.ducks.filter(ducks => ducks.user === data)
        
         await this.setState({
             topDucks: profileDucks
         }, console.log(this.state.topDucks, "inside setstate of ducks function after setting state?"))
-        console.log(this.state.profileView)
-        console.log(profileDucks, "PROFILE DUCKS <<<<<")
-        console.log(this.state.topDucks, "topDucks after this.setState for topDucks")
+        
+       
     }
 
 
@@ -221,12 +222,16 @@ class App extends Component {
     async getTopBucks(){
    
         let response = await axios.get('http://127.0.0.1:8000/api/bucks/')
-
+        console.log(response.data) // here as well as line 268 both come in with weight in ascending order, some how? from axios request? in my admin they're not in that order.
         this.setState({
             bucks: response.data
         })
-        let descendingOrder = this.sortWeightDescending(response.data)
-        let dOrder = this.sortWeightDescending(this.state.bucks)
+    
+        
+        let descendingOrder = this.sortWeightDescendingBucks(response.data)
+        console.log(descendingOrder, 'descending order')
+        
+      
     
         //descendingOrder.length=5;            // set to 5 for testing, ultimately will set to show top 100.
         this.setState({
@@ -247,8 +252,37 @@ class App extends Component {
 
     }
 
+    returnData(data){
+        console.log(data)
+        return data
+    }
 
+    // sortWeightDescending function was working for ducks, and bass, but not for bucks. It makes absolutely no sense to me why..
+    // spent WAY too much time on this. Logically still it makes NO SENSE TO ME AT ALL, that this function doing a for loop some how returns
+    // the bucks in descending order... makes no sense.  Otherwise, it always returns them ascending. I can't understand it.
+    // some how this works, but it shouldn't?
+    // makes no sense... no sense....
+    // if someone can explain to me, why the heck sorted is returning them in ascending order, and why this stupid forloop is putting them in
+    // descending order, please explain.
+    sortWeightDescendingBucks(data){
+        console.log(data) // here the data console.logs as weight in ascending order, and I dont know why or how, because that's not the order of the bucks.
+        let bucks = []
+        let sorted = data.sort(function(a, b){return b.weight-a.weight}); // this function is a copy paste from line 68 which was putting the bass/ducks in descending order, 
+        //but didn't work on bucks some reason? I didnt understand why, it kept returning the in ascending order, yet returned ducks and bass in descending.
 
+        for(let i = 0; i < data.length; i++){
+            console.log(data[i].weight)
+            bucks.push(data[i])
+        }                                  // Here on this forloop, i'm looping through data which on line 268 is in ascending order. Yet, when I push it to this bucks =[]
+        // some how it comes back as DESCENDING ORDER!?  makes no freaking sense...
+        console.log(sorted) // this is weight in ascending order.
+        console.log(bucks) // this has them in descending order!?
+        this.setState({
+            topBucks: bucks    // right here, I just said *shrug* whatever... and descending to use the one that was doing what it is not suppose to do, but is...
+        })
+
+        return bucks   // yea makes no sense at all..
+    }
 
     async postBucks(data){
         
@@ -466,7 +500,6 @@ class App extends Component {
             profileView: !this.state.profileView
         }, await this.getAnotherProfileBass(data))
 
-   
     }
 
     sleep = (milliseconds) => {

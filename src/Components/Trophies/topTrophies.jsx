@@ -15,6 +15,7 @@ const TopDisplayCase = (props) => {
    useEffect(() =>{
        console.log('Use Effect running')
    });
+   
 
 
    function selectShowingCase(){

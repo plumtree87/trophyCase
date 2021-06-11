@@ -27,6 +27,21 @@ const DisplayGame = (props) => {
       
        
    });
+
+   async function getUserProfile(data){
+      
+    setProfileView(!profileView)
+    console.log("game.jsx line 97 entering props.displayProfile(data) which leads to topTrophies.jsx displayProfileView props.")
+    await props.displayProfileView(data)
+    
+    
+  }
+
+  async function leaveUserProfile(){
+    console.log("game.jsx line 104 entering props.exitProfileView() which leads to topTrophies.jsx exitProfileView props ")
+    await props.exitProfileView()
+    setProfileView(!profileView)
+  }
    
 
    const handleClick = (address) => {
@@ -34,8 +49,11 @@ const DisplayGame = (props) => {
     
     //geocode(location);
     setSide(!isFront);
+    if (isFront === true){
+      geocode(address)
+    }
     
-    geocode(address)
+   
     
     console.log(location, "LOCATIONNNNN")
   }
@@ -88,20 +106,7 @@ const DisplayGame = (props) => {
 
 
   
-    async function getUserProfile(data){
-      
-      setProfileView(!profileView)
-      console.log("game.jsx line 97 entering props.displayProfile(data) which leads to topTrophies.jsx displayProfileView props.")
-      await props.displayProfileView(data)
-      
-      
-    }
 
-    async function leaveUserProfile(){
-      console.log("game.jsx line 104 entering props.exitProfileView() which leads to topTrophies.jsx exitProfileView props ")
-      await props.exitProfileView()
-      setProfileView(!profileView)
-    }
 
 
    
@@ -109,28 +114,28 @@ const DisplayGame = (props) => {
    function selectGameInfo(){
        if(props.topGame.rackpoints !== undefined){
   
-         return <Card> <div id="map" ref={myRef} style={{height: "50vh", width: "100%", overflowY: "scroll"}}> renderMap()  </div>  </Card>
+         return <Card> <div id="map" ref={myRef} style={{height: "50vh", width: "100%", overflowY: "scroll"}}> {renderMap()}  </div>  </Card>
        }  
        if(props.topGame.isPregnant !== undefined){
       
-         return <Card> <div id="map" ref={myRef} style={{height: "50vh", width: "100%", overflowY: "scroll"}}> renderMap()  </div></Card>
+         return <Card> <div id="map" ref={myRef} style={{height: "50vh", width: "100%", overflowY: "scroll"}}> {renderMap()}  </div></Card>
        }
        if(props.topGame.footsize !== undefined){
       
-         return <Card> <div id="map" ref={myRef} style={{height: "50vh", width: "100%", overflowY: "scroll"}}> renderMap()  </div></Card>
+         return <Card> <div id="map" ref={myRef} style={{height: "50vh", width: "100%", overflowY: "scroll"}}> {renderMap()}  </div></Card>
        }
 
     }
-    /// I was having issues with my django media files being rendered on tha page. I do not know why. I followed several guides, and I couldn't piece it together. 
-    /// one guide really frustrated me, when it showed me putting in my web address and the image file location, and saying "it should look like this once you're done"
-    /// and I did, and mine loaded on my host, so apparently I did everything right, but it still wouldn't show up on my react. I have a lot to do... 
-    /// going to figure out the real way to do this later..  I'll have to come back to it, because I have so much more work left to do. I want to get the design right, and worry
-    /// about this media thing later.
+
+   
+
     return (
      
         
     <Card>
-          { profileView ? <button ref={textInput} onClick={() => leaveUserProfile()}>Switch between User's game and TopGame</button> : <button ref={textInput} onClick={() => getUserProfile(props.topGame.user)}>Switch between User's game and Top</button> }
+          { profileView ? 
+          <button ref={textInput} style={{borderWidth: "thick"}} onClick={() => leaveUserProfile()}>Switch between User's Profile and TopGame</button> : 
+          <button ref={textInput} style={{borderWidth: "thick"}} onClick={() => getUserProfile(props.topGame.user)}>Switch between User's Profile and TopGame</button> }
        
          <ReactCardFlip isFlipped={isFront} flipDirection='horizontal'>
        <Card id="topTrophiesCard" onClick={() => handleClick(props.topGame.address)}>

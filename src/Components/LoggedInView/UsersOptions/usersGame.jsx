@@ -338,6 +338,7 @@ const UsersGame = (props) => {
 
     return (
         <Grid>
+       
             <Grid >
             {isFront ? <Card style={{height: "auto", width: "95%", background: "content-box"}}>
                              <img src={"http://127.0.0.1:8000"+props.topGame.image} alt="photo of your ducks" onClick={() => setSide(!isFront)} style={{width: "75%", height: "75%", maxHeight: "400px", maxWidth: "400px", marginTop: "1rem" , border: "groove"}} />
