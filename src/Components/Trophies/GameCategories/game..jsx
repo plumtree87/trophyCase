@@ -12,13 +12,15 @@ const DisplayGame = (props) => {
 
     const [isFront, setSide] = useState(false);
     const [location, setLocation] = useState({lat: 35, lng: 150})
+    const [profileView, setProfileView] = useState(false)
     let myRef = React.createRef();
+    let textInput = React.createRef();
   
 
 
    useEffect(() =>{
        console.log('Use Effect running')
-       console.log(location)
+      
        
      
       
@@ -44,11 +46,8 @@ const DisplayGame = (props) => {
       console.log(props, "props")
       var location = props;
       let response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyC3CR7HFXvYhJDemaEE5f82ZvH7SUb8GDQ`)
-     
-
    
       setLocation(response.data.results[0]['geometry'].location)
-      
       
     }
      
@@ -69,12 +68,18 @@ const DisplayGame = (props) => {
         zoom: 8,
         
       });
+      //delete these pins later, they were just required for user stories, but dont really want to show people's pins 
+      // in case they actually put the full location of their secret fishing spot, or some private hunting ground,
+      // and then strangers come to hunt or fish there.  It's better to just display general county 
+      var marker = new window.google.maps.Marker({
+        position : new window.google.maps.LatLng(location['lat'], location['lng']),
+        map: map
+      })
+
     }
 
     const renderMap = () => {
 
-     
-      
       console.log(location)
       
       loadScript(`https://maps.googleapis.com/maps/api/js?key=AIzaSyC3CR7HFXvYhJDemaEE5f82ZvH7SUb8GDQ&callback=initMap`)
@@ -82,6 +87,21 @@ const DisplayGame = (props) => {
     }
 
 
+  
+    async function getUserProfile(data){
+      
+      setProfileView(!profileView)
+      console.log("game.jsx line 97 entering props.displayProfile(data) which leads to topTrophies.jsx displayProfileView props.")
+      await props.displayProfileView(data)
+      
+      
+    }
+
+    async function leaveUserProfile(){
+      console.log("game.jsx line 104 entering props.exitProfileView() which leads to topTrophies.jsx exitProfileView props ")
+      await props.exitProfileView()
+      setProfileView(!profileView)
+    }
 
 
    
@@ -89,15 +109,15 @@ const DisplayGame = (props) => {
    function selectGameInfo(){
        if(props.topGame.rackpoints !== undefined){
   
-         return <Card> <div id="map" ref={myRef} style={{height: "50vh", width: "100%", overflowY: "scroll"}}> {renderMap()}  </div>  </Card>
+         return <Card> <div id="map" ref={myRef} style={{height: "50vh", width: "100%", overflowY: "scroll"}}> renderMap()  </div>  </Card>
        }  
        if(props.topGame.isPregnant !== undefined){
       
-         return <Card> <div id="map" ref={myRef} style={{height: "50vh", width: "100%", overflowY: "scroll"}}> {renderMap()}  </div></Card>
+         return <Card> <div id="map" ref={myRef} style={{height: "50vh", width: "100%", overflowY: "scroll"}}> renderMap()  </div></Card>
        }
        if(props.topGame.footsize !== undefined){
       
-         return <Card> <div id="map" ref={myRef} style={{height: "50vh", width: "100%", overflowY: "scroll"}}> {renderMap()}  </div></Card>
+         return <Card> <div id="map" ref={myRef} style={{height: "50vh", width: "100%", overflowY: "scroll"}}> renderMap()  </div></Card>
        }
 
     }
@@ -110,6 +130,7 @@ const DisplayGame = (props) => {
      
         
     <Card>
+          { profileView ? <button ref={textInput} onClick={() => leaveUserProfile()}>Switch between User's game and TopGame</button> : <button ref={textInput} onClick={() => getUserProfile(props.topGame.user)}>Switch between User's game and Top</button> }
        
          <ReactCardFlip isFlipped={isFront} flipDirection='horizontal'>
        <Card id="topTrophiesCard" onClick={() => handleClick(props.topGame.address)}>

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, createRef } from 'react'
 import { Card, Grid, ButtonProps, TextField, ThemeProvider, Form, FormControlLabel, Checkbox } from '@material-ui/core';
 import { findByPlaceholderText } from '@testing-library/dom';
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
+import axios from 'axios'
 
 
 
@@ -10,7 +11,10 @@ const UsersGame = (props) => {
 
    const [isFront, setSide] = useState(true);
    const [isInEditor, setToEditor] =useState(false);
-   const [isPregnant, setIsPregnant] =useState(false)
+   const [isPregnant, setIsPregnant] =useState(false);
+   const [location, setLocation] = useState({lat: 35, lng: 150})
+
+   let myRef = React.createRef();
 
  
    useEffect(() =>{
@@ -52,15 +56,33 @@ const UsersGame = (props) => {
    // even let my flow controller figure it out. 
    async function handleSubmit(id){
        
-       console.log("RUNNING HANDLE SUBMIT:   DATA=", buckData, "id =", id)
        if (props.putBuck !== undefined){
-           props.putBuck(buckData, id)
+            var formdata = new FormData()
+            formdata.append('weight', game.weight)
+            //formdata.append('comment', game.comment)
+            formdata.append('rackpoints', game.specialAttribute)
+            formdata.append('video_id', game.video_id)
+            formdata.append('address', game.location)
+            props.putBuck(formdata, id)
        }
        if(props.putBass !== undefined){
-           props.putBass(bassData, id)
+            var formdata = new FormData()
+            formdata.append('weight', game.weight)
+            //formdata.append('comment', game.comment)
+            formdata.append('rackpoints', game.specialAttribute)
+            formdata.append('video_id', game.video_id)
+            formdata.append('address', game.location)
+
+            props.putBass(formdata, id)
        }
        if(props.putDuck !== undefined){
-           props.putDuck(duckData, id)
+            var formdata = new FormData()
+            formdata.append('weight', game.weight)
+            //formdata.append('comment', game.comment)
+            formdata.append('rackpoints', game.specialAttribute)
+            formdata.append('video_id', game.video_id)
+            formdata.append('address', game.location)
+            props.putDuck(formdata, id)
        }
        
        setToEditor(!isInEditor);
@@ -69,22 +91,29 @@ const UsersGame = (props) => {
 
     
 
-    // coudln't think of a briefer, easier way to do this...
-    const buckData = {
-        weight: game.weight,
-        rackpoints: game.specialAttribute,
-        comment: game.comments,
-    }
-    const bassData = {
-        weight: game.weight,
-        isPregnant: game.specialAttribute,
-        comment: game.comments,
-    }
-    const duckData = {
-        weight: game.weight,
-        footsize: game.specialAttribute,
-        comment: game.comments,
-    }
+    // 
+    // const buckData = {
+    //     weight: game.weight,
+    //     rackpoints: game.specialAttribute,
+    //     comment: game.comments,
+    //     location: game.location,
+    //     video_id: game.video_id,
+    // }
+    // const bassData = {
+    //     weight: game.weight,
+    //     isPregnant: game.specialAttribute,
+    //     comment: game.comments,
+    //     location: game.location,
+    //     video_id: game.video_id
+    // }
+    // const duckData = {
+    //     weight: game.weight,
+    //     footsize: game.specialAttribute,
+    //     comment: game.comments,
+    //     location: game.location,
+    //     video_id: game.video_id
+
+    // }
 
 
    const onChangeWeight = (e) => {
@@ -100,6 +129,18 @@ const UsersGame = (props) => {
     const onChangeComment = (e) => {
         setGame({
         ...game, comment: e.target.value
+        })
+    }
+
+    const onChangeLocation = (e) => {
+        setGame({
+            ...game, location: e.target.value
+        })
+    }
+
+    const onChangeVideoId = (e) => {
+        setGame({
+            ...game, video_id: e.target.value
         })
     }
 
@@ -153,6 +194,71 @@ const UsersGame = (props) => {
     }
 
 
+    
+    async function geocode(props){
+        console.log(props, "props")
+        var location = props;
+        let response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyC3CR7HFXvYhJDemaEE5f82ZvH7SUb8GDQ`)
+     
+        setLocation(response.data.results[0]['geometry'].location)
+        
+      }
+       
+  
+      function loadScript(url) {
+        var index = window.document.getElementsByTagName('script')[0]
+        var script = window.document.createElement('script')
+        script.src = url
+        script.async = true
+        script.defer = true
+        index.parentNode.insertBefore(script, index)
+      }
+  
+      const initMap = () => {
+  
+        var map = new window.google.maps.Map(myRef.current, {
+          center: location,
+          zoom: 8,
+          
+        });
+        //delete these pins later, they were just required for user stories, but dont really want to show people's pins 
+        // in case they actually put the full location of their secret fishing spot, or some private hunting ground,
+        // and then strangers come to hunt or fish there.  It's better to just display general county 
+        var marker = new window.google.maps.Marker({
+          position : new window.google.maps.LatLng(location['lat'], location['lng']),
+          map: map
+        })
+  
+      }
+  
+      const renderMap = () => {
+  
+        console.log(location)
+        
+        loadScript(`https://maps.googleapis.com/maps/api/js?key=AIzaSyC3CR7HFXvYhJDemaEE5f82ZvH7SUb8GDQ&callback=initMap`)
+        window.initMap = initMap
+      }
+
+      function selectGameInfo(){
+        if(props.topGame.rackpoints !== undefined){
+   
+          return <Card> <div id="map" ref={myRef} style={{height: "50vh", width: "100%", overflowY: "scroll"}}> {renderMap()}  </div>  </Card>
+        }  
+        if(props.topGame.isPregnant !== undefined){
+       
+          return <Card> <div id="map" ref={myRef} style={{height: "50vh", width: "100%", overflowY: "scroll"}}> {renderMap()}  </div></Card>
+        }
+        if(props.topGame.footsize !== undefined){
+       
+          return <Card> <div id="map" ref={myRef} style={{height: "50vh", width: "100%", overflowY: "scroll"}}> {renderMap()}  </div></Card>
+        }
+ 
+     }
+
+     function setSideAndGeocode(address){
+         setSide(!isFront)
+         geocode(address);
+     }
   // This function determines what will display in the window. Either the Details about the users game, 
   // or an Editor Window, that allows them to change values of weight, etc.
 
@@ -160,23 +266,23 @@ const UsersGame = (props) => {
         if(isInEditor === false){
             if(props.topGame.rackpoints !== undefined){
            
-            return <Card id="userBackCard"  onClick={() => setSide(!isFront)}>{props.topGame.weight} lbs <br></br> {props.topGame.rackpoints} rack-points <Card id="commentCard">{props.topGame.comments}</Card>  </Card>
+            return <Card id="userBackCard"  onClick={() => setSideAndGeocode(props.topGame.address)}> {props.topGame.address} <Card> {selectGameInfo()} </Card>  </Card>
             }
             if(props.topGame.isPregnant !== undefined){
                 if(props.topGame.isPregnant === true){
-                    return <Card id="userBackCard"  onClick={() => setSide(!isFront)}>{props.topGame.weight} pound Moma! <Card id="commentCard"><header>Comment</header>{props.topGame.comments}</Card></Card>
+                    return <Card id="userBackCard"  onClick={() => setSideAndGeocode(props.topGame.address)}> {props.topGame.weight} pound Moma! <Card>  {selectGameInfo()}</Card></Card>
                 }
-                else return <Card id="userBackCard"  onClick={() => setSide(!isFront)}>{props.topGame.weight} lbs <Card><header>Comment</header>{props.topGame.comments}</Card> </Card>
+                else return <Card id="userBackCard"  onClick={() => setSideAndGeocode(props.topGame.address)}> {props.topGame.weight} lbs <Card> {selectGameInfo()}</Card> </Card>
             }
             if(props.topGame.footsize !== undefined){
-            return <Card id="userBackCard"  onClick={() => setSide(!isFront)}>{props.topGame.weight} lbs with {props.topGame.footsize} inch long feet! <Card id="commentCard">{props.topGame.comments}</Card></Card>
+            return <Card id="userBackCard"  onClick={() => setSide(!isFront)}>{props.topGame.weight} lbs with {props.topGame.footsize} inch long feet! <Card>  {selectGameInfo()}</Card></Card>
             }
         }
 
         if(isInEditor === true){
             return (
             <Grid>
-            <Card style={{height: "300px", width: "300px", textAlign: "-webkit-center"}}>
+            <Card style={{height: "400px", width: "300px", textAlign: "-webkit-center"}}>
             <form style={{margin: "1rem"}} >
             {flowController(returnBuckOnChangeValue, returnBassOnChangeValue(), returnDuckOnChangeValue())}
                 <ThemeProvider >
@@ -197,7 +303,24 @@ const UsersGame = (props) => {
                         onChange={onChangeComment}
                         
                     />
+                 <TextField
+                        label="location; example: Chickasha, OK"
+                        variant="outlined"
+                        id="mui-theme-provider-outlined-input"
+                        name="location"
+                        onChange={onChangeLocation}
+                        
+                    />
+                 <TextField
+                        label="youtube video link"
+                        variant="outlined"
+                        id="mui-theme-provider-outlined-input"
+                        name="video_id"
+                        onChange={onChangeVideoId}
+                        
+                    />
                 </ThemeProvider>
+                
               
             </form>
             </Card>

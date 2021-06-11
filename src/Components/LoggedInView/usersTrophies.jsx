@@ -52,8 +52,7 @@ const UsersTrophies = (props) => {
     // I plan to use these button gropus and if statements, in the future. Probably will re-write the code a little, but...
     // I want to only display Trophies from special games that the users posted if they won, then display the winning trophy
     // no points in displaying their special games in their own tabs for now, since getting all bucks which have users ID, already displays that one.
-    // leaving this here, for a reminder to come back and work on it in the future, if I decide to.
-   
+    // leaving this here, for a reminder to come back and work on it in the future.
     return (
         
         <Grid id="trophyCase">
@@ -74,7 +73,7 @@ const UsersTrophies = (props) => {
           
             </div>
 
-            <Grid style={{height: "400px", overflowY: "scroll"}}>
+            <Grid style={{height: "700px", overflowY: "scroll"}}>
                 {selectShowingCase()}
                 </Grid>
       

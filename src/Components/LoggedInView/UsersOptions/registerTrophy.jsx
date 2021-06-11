@@ -4,6 +4,8 @@ import { Card, Grid, ButtonProps, TextField, ThemeProvider, Form, FormControlLab
 import { findByPlaceholderText } from '@testing-library/dom';
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
+import AddPhotoAlternateOutlinedIcon from '@material-ui/icons/AddPhotoAlternateOutlined';
+import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 
 const RegisterTrophy = (props) => {
 
@@ -40,9 +42,16 @@ const RegisterTrophy = (props) => {
         console.log(event.target.files[0])
         console.log("does this work?", event.target.files[0])
         const file = event.target.files[0];
+
+        console.log(file)
         try {
-            if (file.size > 1024)
-            alert("Sorry I can't figure out how to get this dang thing to work. Please dont upload image for now. Open file uploader again, and press cancel to remove.");
+            if (file.size > 1024){
+                console.log("File.size > 1024: attempting to setGame image: value")
+                setGame({
+                    ...game, image: event.target.files[0]
+                })
+            //alert("Sorry I can't figure out how to get this dang thing to work. Please dont upload image for now. Open file uploader again, and press cancel to remove.");
+            }
             else  setGame({
                 ...game, image: event.target.files[0]
             })  
@@ -51,11 +60,16 @@ const RegisterTrophy = (props) => {
        }
 
        
-
-
-       
     }
-   
+
+    const documentChangeHandler=(event)=>{
+        console.log((event.target.files[0]))
+        setGame({
+            ...game, documents: event.target.files[0]
+        })
+    }
+
+   console.log(game.image)
 
     const onChangeWeight = (e) => {
         setGame({
@@ -63,6 +77,11 @@ const RegisterTrophy = (props) => {
         })
        
     }   
+    const onChangeLocation = (e) => {
+        setGame({
+            ...game, location: e.target.value
+        })
+    }
     const onChangeVideoId = (e) => {
         setGame({
             ...game, video_id: e.target.value
@@ -112,7 +131,7 @@ const RegisterTrophy = (props) => {
             />
         }
         if(type === 'buck'){
-            return         <TextField
+            return  <TextField
             label="rackpoints"
             variant="outlined"
             id="mui-theme-provider-outlined-input"
@@ -131,16 +150,60 @@ const RegisterTrophy = (props) => {
        
         console.log(duckData, "DUCK DATA HERE INSIDE HANDLE SUBMIT")
         if(type === 'duck'){
-            console.log(duckData.image.file)
-            props.postDuck(duckData)
+            var formdata = new FormData()
+            formdata.append('image', game.image)
+            formdata.append('weight', game.weight)
+            //formdata.append('comment', game.comment)
+            formdata.append('user', game.user)
+            formdata.append('rackpoints', game.specialAttribute)
+            formdata.append('video_id', game.video_id)
+            formdata.append('address', game.location)
+            formdata.append('documents', game.documents)
+            props.postDuck(formdata)
         }
         if(type === 'buck'){
-            props.postBuck(buckData)
+            var formdata = new FormData()
+            formdata.append('image', game.image)
+            formdata.append('weight', game.weight)
+            //formdata.append('comment', game.comment)
+            formdata.append('user', game.user)
+            formdata.append('rackpoints', game.specialAttribute)
+            formdata.append('video_id', game.video_id)
+            formdata.append('address', game.location)
+            formdata.append('documents', game.documents)
+            props.postBuck(formdata)
+
         }
         if(type === 'bass'){
-            props.postBass(bassData)
+            var formdata = new FormData()
+            formdata.append('image', game.image)
+            formdata.append('weight', game.weight)
+            //formdata.append('comment', game.comment)
+            formdata.append('user', game.user)
+            formdata.append('rackpoints', game.specialAttribute)
+            formdata.append('video_id', game.video_id)
+            formdata.append('address', game.location)
+            formdata.append('documents', game.documents)
+            props.postBass(formdata)
         }
 
+    }
+
+    function getVideoID(){
+        let vidId = game.video_id.split("=")
+        let shareId = game.video_id.split("be/")
+   
+        if(vidId[1] !== undefined){
+            return vidId[1]
+        }
+        if(shareId[1] !== undefined){
+            return shareId[1]
+        }
+        else {
+            console.log(game.video_id)
+            return game.video_id
+        }
+        
     }
 
     const duckData = {
@@ -150,7 +213,9 @@ const RegisterTrophy = (props) => {
         image: game.image,
         user: game.user,
         prize: 0,
-        video_id: game.video_id,
+        video_id: getVideoID(),
+        location: game.location,
+        
 
     } 
 
@@ -161,7 +226,9 @@ const RegisterTrophy = (props) => {
         image: game.image,
         user: game.user,
         prize: 0,
-        video_id: game.video_id,
+        video_id: getVideoID(),
+        location: game.location,
+      
 
     }
 
@@ -172,7 +239,8 @@ const RegisterTrophy = (props) => {
         image: game.image,
         user: game.user,
         prize: 0,
-        video_id: game.video_id,
+        video_id: getVideoID(),
+        location: game.location
     }
 
 
@@ -219,11 +287,19 @@ const RegisterTrophy = (props) => {
                         
                     />
                      <TextField
-                        label="youtube video id "
+                        label="youtube video link"
                         variant="outlined"
                         id="mui-theme-provider-outlined-input"
                         name="video_id"
                         onChange={onChangeVideoId}
+                        
+                    />
+                     <TextField
+                        label="location; ex.  Chickasha, OK"
+                        variant="outlined"
+                        id="mui-theme-provider-outlined-input"
+                        name="location"
+                        onChange={onChangeLocation}
                         
                     />
                     {gameTypeDependantDisplay()}
@@ -232,15 +308,16 @@ const RegisterTrophy = (props) => {
 
                 
                
-              
-                <input type="file" name="file" onChange={fileChangeHandler}/>
+              <div>  <input type="file" name="file" accept="image/" onChange={fileChangeHandler}/> <AddPhotoAlternateOutlinedIcon />
+                </div>  
+
+                <input type="file" name="document" onChange={documentChangeHandler}/>   <NoteAddOutlinedIcon />
     
               
             </form>
             <div>  <input type="submit" value="Submit" style={{marginRight: "1rem", marginTop: "1rem"}} onClick={handleSubmit} />
               </div>
-              <p style={{fontSize: "2vh"}}> Example, https://www.youtube.com/watch?v=KQPs_1Ag29w  <br></br>
-                 everything after ?v=COPY  and paste into video id.
+              <p style={{fontSize: "2vh"}}> Copy the Youtube video's web address / url from the browser and paste it here. Or, the share copy/link.
                 </p>
         
         </Grid>

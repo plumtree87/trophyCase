@@ -4,9 +4,9 @@ import axios from 'axios';
 import { Grid, Button } from '@material-ui/core';
 import Login from './Login/login';
 import Register from './Login/register';
-import TopDisplayCase from './Trophies/topTrophies'
-import LoggedInView from './LoggedInView/loggedInView'
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import TopDisplayCase from './Trophies/topTrophies';
+import LoggedInView from './LoggedInView/loggedInView';
+//import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 
 
@@ -18,13 +18,13 @@ class App extends Component {
         isOpen: false,
         ducks: [],
         bucks: [],
-        deer: [],
+        bass: [],
         bigMama: [],
         bigRackLittleBuck: [],
         bigFoot: [],
         topBucks: [],
         topDucks: [],
-        topDeer: [],
+        topBass: [],
         user: {},
         status: '',
         jwt: 0,
@@ -32,25 +32,25 @@ class App extends Component {
         usersDucks: [],
         usersBass: [],
         currentUser: '',
+        profileView: false,
+
 
 
 
 
     }
     componentDidMount(){
-        
-           this.getTopDucks();
-
-        
-           this.getTopBass();
-           this.getTopBucks();
-           //
-
-        
-       
-
+ 
+            this.getTopDucks();
+            this.getTopBass();
+            this.getTopBucks();
+           
+     
         
     }
+
+
+
 
     getToken(){
         const jwt = localStorage.getItem('token');
@@ -100,19 +100,11 @@ class App extends Component {
 
                 
             })
-      
-
             this.getUser();
             this.getUsersDucks();
             this.getUsersBucks();
             this.getUsersBass();
-
-           
-           
-
                 
-            
-            
         }
         catch {
             this.setState({
@@ -172,10 +164,12 @@ class App extends Component {
 
     }
 
+
     async postDucks(data){
-        console.log(data, "POST DUCKS DATA")
-        let response = await axios.post('http://127.0.0.1:8000/api/ducks/', data, {headers: {Authorization: 'Bearer ' + this.state.jwt}})
-        console.log(response, "postDucks, repsonse")
+   
+        let response = await axios.post('http://127.0.0.1:8000/api/ducks/', data,  {headers: {Authorization: 'Bearer ' + this.state.jwt, 'Content-Type': 'multipart/form-data'}} )
+        console.log(response)
+       
         this.getUsersDucks();
 
     }
@@ -188,15 +182,26 @@ class App extends Component {
 
     }
 
+
+
     async putDuck(data, pk){
     
-        let response = await axios.put(`http://127.0.0.1:8000/api/usersDucks/${pk}`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt}})
+        let response = await axios.put(`http://127.0.0.1:8000/api/usersDucks/${pk}`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt, 'Content-Type': 'multipart/form-data'}})
         this.getUsersDucks();
     }
 
-    
-
-
+ 
+    async getAnotherProfileDucks(data){
+        console.log("entered getAnotherProfileDucks() at line 194 of game.jsx")
+        let profileDucks = this.state.ducks.filter(ducks => ducks.user === data)
+       
+        await this.setState({
+            topDucks: profileDucks
+        }, console.log(this.state.topDucks, "inside setstate of ducks function after setting state?"))
+        console.log(this.state.profileView)
+        console.log(profileDucks, "PROFILE DUCKS <<<<<")
+        console.log(this.state.topDucks, "topDucks after this.setState for topDucks")
+    }
 
 
     // BUCKS           BUCKS            BUCKS              BUCKS                 BUCKS              BUCKS     
@@ -243,25 +248,40 @@ class App extends Component {
     }
 
 
+
+
     async postBucks(data){
-    
-        let response = await axios.post(`http://127.0.0.1:8000/api/bucks/`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt}} )
-     
+        
+        
+        let response = await axios.post(`http://127.0.0.1:8000/api/bucks/`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt, 'Content-Type': 'multipart/form-data'}} )
+        console.log(response)
+        this.getUsersBucks();
     }
     
     async putBuck(data, pk){
     
-        let response = await axios.put(`http://127.0.0.1:8000/api/bucks/${pk}`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt}})
+        let response = await axios.put(`http://127.0.0.1:8000/api/bucks/${pk}`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt, 'Content-Type': 'multipart/form-data'}})
         this.getUsersBucks();
     }
 
     async getUsersBucks(){
+        
         let response = await axios.get('http://127.0.0.1:8000/api/usersBucks/', {headers: {Authorization: 'Bearer ' + this.state.jwt}})
         this.setState({
             usersBucks: response.data
         })
-       }
+        console.log(response.data)
+    }
 
+    async getAnotherProfileBucks(data){
+        console.log(this.state.topBass, "did this.topBass setState work from previous function before this one? Should have only 1 person.")
+        let profileBucks = this.state.bucks.filter(bucks => bucks.user === data)
+        await this.setState({
+            topBucks: profileBucks
+        }, await this.getAnotherProfileDucks(data))
+    
+      
+    }
 
     // BASS         BASS                BASS                    BASS                    BASS                   BASS
     checkPregnant(data){
@@ -289,6 +309,7 @@ class App extends Component {
         this.setState({
             topBass: descendingOrder
         })
+    
         let bigMamas = this.checkPregnant(response.data)
        
         let biggestMama = this.sortWeightDescending(bigMamas)
@@ -298,16 +319,20 @@ class App extends Component {
         this.setState({
            bigMama: biggestMama
         })
-  
+       
        
        
 
 
     }
 
+
+
     async postBass(data){
  
-        let response = await axios.post('http://127.0.0.1:8000/bass/', data, {headers: {Authorization: 'Bearer ' + this.state.jwt}})
+        let response = await axios.post('http://127.0.0.1:8000/fish/', data,  {headers: {Authorization: 'Bearer ' + this.state.jwt, 'Content-Type': 'multipart/form-data'}} )
+        console.log(response)
+        this.getUsersBass();
   
     }
 
@@ -320,12 +345,20 @@ class App extends Component {
 
     async putBass(data, pk){
     
-        let response = await axios.put(`http://127.0.0.1:8000/api/usersBass/${pk}`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt}})
+        let response = await axios.put(`http://127.0.0.1:8000/api/usersBass/${pk}`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt, 'Content-Type': 'multipart/form-data'}})
         this.getUsersBass();
     }
 
 
-    
+    async getAnotherProfileBass(data){
+        console.log(this.state.profileView, "profileView is set to True?")
+        let profileBass = this.state.bass.filter(bass => bass.user === data)
+        await this.setState({
+            topBass: profileBass
+        }, await this.getAnotherProfileBucks(data))
+      
+    }
+
     // <<<<<<<<<<<<<<<<<<<<<<<<<    all axios requests and ther pertaining functions between these comments < UP FROM HERE  >>>>>>>>>>>>>>>>>/// 
 
 
@@ -371,7 +404,7 @@ class App extends Component {
                     user={this.state.currentUser}
 
                  /> 
-        
+                 <input type='button' style={{marginTop: "10%"}}onClick={() => this.handlePayment()} value='click here to pay your yearly subscription' ></input>
             </Grid>
 
     
@@ -391,10 +424,12 @@ class App extends Component {
             trophyMama = {this.state.bigMama}
             trophyLittleBigFoot = {this.state.bigFoot}
             trophyBigRack = {this.state.bigRackLittleBuck}
-            getVenues = {(location) => this.getVenues(location)}
-            />
-       
-                <input type='button' onClick={() => this.handlePayment()} value='click here to pay your yearly subscription' ></input>
+            displayProfileView = {(data) => this.displayProfileView(data)}
+            leaveProfileView = {() => this.exitProfileView()}
+            /> 
+
+
+               
                 <p id="intro" style={{color: "white", overflowY: "scroll", height: "300px", fontSize: "4vw"}}>
 
                 This is a community powered website. Paying out yearly rewards to the hunters who catch the best game isn't possible, without your yearly subscriptions.
@@ -409,24 +444,40 @@ class App extends Component {
         }
     }
 
+ 
+
+    async exitProfileView(){
+        console.log("exitProfileView() in game.jsx line 433 has been hit, should be running 3 functions.")
+        
+        this.setState({
+            profileView: false
+        }, this.componentDidMount())
+   
+    }
+    // You will notice following the path of this function I have a lot of 'await' and it's because my state wasn't changing like it should.
+    // Well, i finally got it working, and I dont have time to go back and see if these awaits are really necessary, at this time...
+    // it works, and i got a lot of other things to work on. Over 90% positive they're not necessary though, lol.. after I learned about
+    // setState({key:value}, runAnotherFunctionAfterSettingState())  trick.
+    async displayProfileView(data){
+     
+        console.log(this.state.profileView)
+
+        await this.setState({
+            profileView: !this.state.profileView
+        }, await this.getAnotherProfileBass(data))
+
+   
+    }
+
+    sleep = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+
     handlePayment() {
         // do something meaningful, Promises, if/else, whatever, and then
-        window.location.assign('https://buy.stripe.com/test_bIYdR7fFXcGR0CI9AB');
+        window.open('https://buy.stripe.com/test_bIYdR7fFXcGR0CI9AB', '_blank');
      }
 
-    //  async geocode(props){
-    //     console.log(props, "props")
-    //     var location = props;
-    //     let response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyC3CR7HFXvYhJDemaEE5f82ZvH7SUb8GDQ`)
-    //     console.log(response.data)
-  
-    //     console.log(response.data.results[0]['geometry'].location['lat'], response.data.results[0]['geometry'].location['lat'])
-       
-    //     console.log(response.data.results[0]['geometry'].location)
-     
-    //     setLocation(response.data.results[0]['geometry'].location)
-        
-    // }
     
 
  /// want to put the <p? into an accordian so it takes up less space. 

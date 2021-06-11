@@ -79,9 +79,9 @@ const DisplayBigRackLittleBuck = (props) => {
        <Card id="topTrophiesCardBack" onClick={handleClick} style={{overflowY: "scroll"}}>
         {locationSide ?
           <h4> {props.trophyBigRackLittleBuck.comments}   USERNAME, FNAME LASTNAME, DATE RECORDED.  </h4> : <h4>
-
-          <iframe width="560" height="315" src={videoSrc} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      
+          <div id="myIframe">
+          <iframe id="innerIframe" width="560" height="315" src={videoSrc} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
         </h4> }
 
         
