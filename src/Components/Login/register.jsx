@@ -52,7 +52,7 @@ class Register extends Component {
 
     async getResponse(user){
         let response = await this.props.registerUser(user)
-        console.log(response)
+   
         if(response === 'ok'){
             alert("Successfully Registered. Go ahead and login!")
             this.props.register();

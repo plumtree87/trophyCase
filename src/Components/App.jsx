@@ -66,16 +66,15 @@ class App extends Component {
     //  {headers: {Authorization: 'Bearer ' + this.state.jwt}}
 
     sortWeightDescending(data){
-        console.log(data)
-        let sorted = data.sort(function(a, b){return b.weight-a.weight});
-        console.log(sorted, "sorted descending")
    
+        let sorted = data.sort(function(a, b){return b.weight-a.weight});
+     
         return sorted;
     }
     sortWeightAscending(data){
 
         let sorted = data.sort(function(a, b){return a.weight-b.weight});
-        console.log(sorted, "sorted ascending")
+      
         return sorted;
     }
 
@@ -84,7 +83,7 @@ class App extends Component {
 
         let response = await axios.get('http://127.0.0.1:8000/api/profile/', {headers: {Authorization: 'Bearer ' + this.state.jwt}})
  
-        console.log(response.data, "response.data from getUser()" )
+       
         this.setState({
             currentUser: response.data.data[0].user_id
         })
@@ -170,7 +169,7 @@ class App extends Component {
     async postDucks(data){
    
         let response = await axios.post('http://127.0.0.1:8000/api/ducks/', data,  {headers: {Authorization: 'Bearer ' + this.state.jwt, 'Content-Type': 'multipart/form-data'}} )
-        console.log(response)
+ 
        
         this.getUsersDucks();
 
@@ -187,8 +186,9 @@ class App extends Component {
 
 
     async putDuck(data, pk){
-    
+        console.log(data)
         let response = await axios.put(`http://127.0.0.1:8000/api/usersDucks/${pk}`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt, 'Content-Type': 'multipart/form-data'}})
+       console.log(response)
         this.getUsersDucks();
     }
 
@@ -199,7 +199,7 @@ class App extends Component {
        
         await this.setState({
             topDucks: profileDucks
-        }, console.log(this.state.topDucks, "inside setstate of ducks function after setting state?"))
+        })
         
        
     }
@@ -222,14 +222,13 @@ class App extends Component {
     async getTopBucks(){
    
         let response = await axios.get('http://127.0.0.1:8000/api/bucks/')
-        console.log(response.data) // here as well as line 268 both come in with weight in ascending order, some how? from axios request? in my admin they're not in that order.
-        this.setState({
+         this.setState({
             bucks: response.data
         })
     
         
         let descendingOrder = this.sortWeightDescendingBucks(response.data)
-        console.log(descendingOrder, 'descending order')
+  
         
       
     
@@ -252,43 +251,29 @@ class App extends Component {
 
     }
 
-    returnData(data){
-        console.log(data)
-        return data
-    }
-
-    // sortWeightDescending function was working for ducks, and bass, but not for bucks. It makes absolutely no sense to me why..
-    // spent WAY too much time on this. Logically still it makes NO SENSE TO ME AT ALL, that this function doing a for loop some how returns
-    // the bucks in descending order... makes no sense.  Otherwise, it always returns them ascending. I can't understand it.
-    // some how this works, but it shouldn't?
-    // makes no sense... no sense....
-    // if someone can explain to me, why the heck sorted is returning them in ascending order, and why this stupid forloop is putting them in
-    // descending order, please explain.
+   
     sortWeightDescendingBucks(data){
-        console.log(data) // here the data console.logs as weight in ascending order, and I dont know why or how, because that's not the order of the bucks.
+
         let bucks = []
-        let sorted = data.sort(function(a, b){return b.weight-a.weight}); // this function is a copy paste from line 68 which was putting the bass/ducks in descending order, 
-        //but didn't work on bucks some reason? I didnt understand why, it kept returning the in ascending order, yet returned ducks and bass in descending.
+        let sorted = data.sort(function(a, b){return b.weight-a.weight}); 
 
         for(let i = 0; i < data.length; i++){
-            console.log(data[i].weight)
+          
             bucks.push(data[i])
-        }                                  // Here on this forloop, i'm looping through data which on line 268 is in ascending order. Yet, when I push it to this bucks =[]
-        // some how it comes back as DESCENDING ORDER!?  makes no freaking sense...
-        console.log(sorted) // this is weight in ascending order.
-        console.log(bucks) // this has them in descending order!?
+        }                              
+      
         this.setState({
-            topBucks: bucks    // right here, I just said *shrug* whatever... and descending to use the one that was doing what it is not suppose to do, but is...
+            topBucks: bucks  
         })
 
-        return bucks   // yea makes no sense at all..
+        return bucks  
     }
 
     async postBucks(data){
         
         
         let response = await axios.post(`http://127.0.0.1:8000/api/bucks/`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt, 'Content-Type': 'multipart/form-data'}} )
-        console.log(response)
+     
         this.getUsersBucks();
     }
     
@@ -304,11 +289,11 @@ class App extends Component {
         this.setState({
             usersBucks: response.data
         })
-        console.log(response.data)
+    
     }
 
     async getAnotherProfileBucks(data){
-        console.log(this.state.topBass, "did this.topBass setState work from previous function before this one? Should have only 1 person.")
+       
         let profileBucks = this.state.bucks.filter(bucks => bucks.user === data)
         await this.setState({
             topBucks: profileBucks
@@ -365,7 +350,7 @@ class App extends Component {
     async postBass(data){
  
         let response = await axios.post('http://127.0.0.1:8000/fish/', data,  {headers: {Authorization: 'Bearer ' + this.state.jwt, 'Content-Type': 'multipart/form-data'}} )
-        console.log(response)
+   
         this.getUsersBass();
   
     }
@@ -378,14 +363,14 @@ class App extends Component {
     }
 
     async putBass(data, pk){
-    
+        console.log(data)
         let response = await axios.put(`http://127.0.0.1:8000/api/usersBass/${pk}`, data,  {headers: {Authorization: 'Bearer ' + this.state.jwt, 'Content-Type': 'multipart/form-data'}})
         this.getUsersBass();
     }
 
 
     async getAnotherProfileBass(data){
-        console.log(this.state.profileView, "profileView is set to True?")
+       
         let profileBass = this.state.bass.filter(bass => bass.user === data)
         await this.setState({
             topBass: profileBass
@@ -481,7 +466,7 @@ class App extends Component {
  
 
     async exitProfileView(){
-        console.log("exitProfileView() in game.jsx line 433 has been hit, should be running 3 functions.")
+       
         
         this.setState({
             profileView: false
@@ -494,7 +479,7 @@ class App extends Component {
     // setState({key:value}, runAnotherFunctionAfterSettingState())  trick.
     async displayProfileView(data){
      
-        console.log(this.state.profileView)
+      
 
         await this.setState({
             profileView: !this.state.profileView

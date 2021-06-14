@@ -38,7 +38,7 @@ const DisplayBigRackLittleBuck = (props) => {
     }
 
     async function geocode(props){
-        console.log(props, "props")
+      
         var location = props;
         let response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyC3CR7HFXvYhJDemaEE5f82ZvH7SUb8GDQ`)
      

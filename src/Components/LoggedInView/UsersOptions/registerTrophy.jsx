@@ -38,15 +38,12 @@ const RegisterTrophy = (props) => {
     };
 
     const fileChangeHandler=(event)=>{
-
-        console.log(event.target.files[0])
-        console.log("does this work?", event.target.files[0])
+    
         const file = event.target.files[0];
 
-        console.log(file)
         try {
             if (file.size > 1024){
-                console.log("File.size > 1024: attempting to setGame image: value")
+                console.log("File.size > 1024: (not that it really matters..) attempting to setGame image: value")
                 setGame({
                     ...game, image: event.target.files[0]
                 })
@@ -63,13 +60,13 @@ const RegisterTrophy = (props) => {
     }
 
     const documentChangeHandler=(event)=>{
-        console.log((event.target.files[0]))
+       
         setGame({
             ...game, documents: event.target.files[0]
         })
     }
 
-   console.log(game.image)
+ 
 
     const onChangeWeight = (e) => {
         setGame({
@@ -147,15 +144,13 @@ const RegisterTrophy = (props) => {
 
         event.preventDefault();
         
-       
-        console.log(duckData, "DUCK DATA HERE INSIDE HANDLE SUBMIT")
         if(type === 'duck'){
             var formdata = new FormData()
             formdata.append('image', game.image)
             formdata.append('weight', game.weight)
             //formdata.append('comment', game.comment)
             formdata.append('user', game.user)
-            formdata.append('rackpoints', game.specialAttribute)
+            formdata.append('footsize', game.specialAttribute)
             formdata.append('video_id', game.video_id)
             formdata.append('address', game.location)
             formdata.append('documents', game.documents)
@@ -180,7 +175,7 @@ const RegisterTrophy = (props) => {
             formdata.append('weight', game.weight)
             //formdata.append('comment', game.comment)
             formdata.append('user', game.user)
-            formdata.append('rackpoints', game.specialAttribute)
+            formdata.append('isPregnant', game.specialAttribute)
             formdata.append('video_id', game.video_id)
             formdata.append('address', game.location)
             formdata.append('documents', game.documents)
@@ -200,7 +195,7 @@ const RegisterTrophy = (props) => {
             return shareId[1]
         }
         else {
-            console.log(game.video_id)
+         
             return game.video_id
         }
         
@@ -278,14 +273,14 @@ const RegisterTrophy = (props) => {
                         onChange={onChangeWeight}
                         
                     />
-                    <TextField
+                    {/* <TextField
                         label="comment"
                         variant="outlined"
                         id="mui-theme-provider-outlined-input"
                         name="comment"
                         onChange={onChangeComment}
                         
-                    />
+                    /> */}
                      <TextField
                         label="youtube video link"
                         variant="outlined"

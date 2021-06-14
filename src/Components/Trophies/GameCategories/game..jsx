@@ -31,21 +31,21 @@ const DisplayGame = (props) => {
    async function getUserProfile(data){
       
     setProfileView(!profileView)
-    console.log("game.jsx line 97 entering props.displayProfile(data) which leads to topTrophies.jsx displayProfileView props.")
+
     await props.displayProfileView(data)
     
     
   }
 
   async function leaveUserProfile(){
-    console.log("game.jsx line 104 entering props.exitProfileView() which leads to topTrophies.jsx exitProfileView props ")
+   
     await props.exitProfileView()
     setProfileView(!profileView)
   }
    
 
    const handleClick = (address) => {
-     console.log(address, "AADDDRESSSS")
+    
     
     //geocode(location);
     setSide(!isFront);
@@ -53,15 +53,13 @@ const DisplayGame = (props) => {
       geocode(address)
     }
     
-   
-    
-    console.log(location, "LOCATIONNNNN")
+  
   }
 
 
 
     async function geocode(props){
-      console.log(props, "props")
+  
       var location = props;
       let response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyC3CR7HFXvYhJDemaEE5f82ZvH7SUb8GDQ`)
    
@@ -98,7 +96,7 @@ const DisplayGame = (props) => {
 
     const renderMap = () => {
 
-      console.log(location)
+      
       
       loadScript(`https://maps.googleapis.com/maps/api/js?key=AIzaSyC3CR7HFXvYhJDemaEE5f82ZvH7SUb8GDQ&callback=initMap`)
       window.initMap = initMap
@@ -134,8 +132,8 @@ const DisplayGame = (props) => {
         
     <Card>
           { profileView ? 
-          <button ref={textInput} style={{borderWidth: "thick"}} onClick={() => leaveUserProfile()}>Switch between User's Profile and TopGame</button> : 
-          <button ref={textInput} style={{borderWidth: "thick"}} onClick={() => getUserProfile(props.topGame.user)}>Switch between User's Profile and TopGame</button> }
+          <button ref={textInput} style={{borderWidth: "thick"}} onClick={() => leaveUserProfile()}>Switch between User's Trophies and Top Trophies</button> : 
+          <button ref={textInput} style={{borderWidth: "thick"}} onClick={() => getUserProfile(props.topGame.user)}>Switch between User's Trophies and Top Trophies</button> }
        
          <ReactCardFlip isFlipped={isFront} flipDirection='horizontal'>
        <Card id="topTrophiesCard" onClick={() => handleClick(props.topGame.address)}>

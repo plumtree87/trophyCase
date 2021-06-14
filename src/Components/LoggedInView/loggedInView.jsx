@@ -32,8 +32,8 @@ const LoggedInView = (props) => {
              />
        }
        if(userChoice === 'registerTrophy'){
-           console.log(props.user)
-           console.log("REGISTER TROPHY VIEW IS SUPPOSE TO BE RENDERING...")
+      
+      
            return <RegisterTrophy
            user = {props.user}
            postDuck = {props.postDuck}

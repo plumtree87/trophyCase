@@ -2,6 +2,7 @@ import React, { useEffect, useState, createRef } from 'react'
 import { Card, Grid, ButtonProps, TextField, ThemeProvider, Form, FormControlLabel, Checkbox } from '@material-ui/core';
 import { findByPlaceholderText } from '@testing-library/dom';
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
+import ReactCardFlip from 'react-card-flip';
 import axios from 'axios'
 
 
@@ -69,7 +70,7 @@ const UsersGame = (props) => {
             var formdata = new FormData()
             formdata.append('weight', game.weight)
             //formdata.append('comment', game.comment)
-            formdata.append('rackpoints', game.specialAttribute)
+            formdata.append('isPregnant', game.specialAttribute)
             formdata.append('video_id', game.video_id)
             formdata.append('address', game.location)
 
@@ -79,9 +80,15 @@ const UsersGame = (props) => {
             var formdata = new FormData()
             formdata.append('weight', game.weight)
             //formdata.append('comment', game.comment)
-            formdata.append('rackpoints', game.specialAttribute)
+            console.log(game.specialAttribute)
+            console.log(game.weight)
+            console.log(game.location)
+            formdata.append('footsize', game.specialAttribute)
             formdata.append('video_id', game.video_id)
             formdata.append('address', game.location)
+            console.log(formdata, "FORM DATA", id, "ID")
+            console.log(game.specialAttribute, "FOOTSIZE HERE")
+            console.log('address', game.address)
             props.putDuck(formdata, id)
        }
        
@@ -117,11 +124,13 @@ const UsersGame = (props) => {
 
 
    const onChangeWeight = (e) => {
+       console.log(e.target.value)
         setGame({
         ...game, weight: e.target.value
         })
     }
     const onChangeSpecialAttribute = (e) => {
+        console.log(e.target.value)
         setGame({
         ...game, specialAttribute: e.target.value
         })
@@ -147,7 +156,7 @@ const UsersGame = (props) => {
     // idk if this function was uncessary, but couldn't wrap my brain around using onChangeSpecialAttribute for this also.
     const handleIsPregnant = (e) => {
         const { checked } = e.target
-        console.log(isPregnant)
+     
         setIsPregnant({
           isPregnant: checked
         })
@@ -196,7 +205,7 @@ const UsersGame = (props) => {
 
     
     async function geocode(props){
-        console.log(props, "props")
+      
         var location = props;
         let response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyC3CR7HFXvYhJDemaEE5f82ZvH7SUb8GDQ`)
      
@@ -233,7 +242,7 @@ const UsersGame = (props) => {
   
       const renderMap = () => {
   
-        console.log(location)
+ 
         
         loadScript(`https://maps.googleapis.com/maps/api/js?key=AIzaSyC3CR7HFXvYhJDemaEE5f82ZvH7SUb8GDQ&callback=initMap`)
         window.initMap = initMap
@@ -266,7 +275,7 @@ const UsersGame = (props) => {
         if(isInEditor === false){
             if(props.topGame.rackpoints !== undefined){
            
-            return <Card id="userBackCard"  onClick={() => setSideAndGeocode(props.topGame.address)}> {props.topGame.address} <Card> {selectGameInfo()} </Card>  </Card>
+            return <Card id="userBackCard"  onClick={() => setSideAndGeocode(props.topGame.address)}> {props.topGame.weight} lbs with {props.topGame.rackpoints} rack points <Card> {selectGameInfo()} </Card>  </Card>
             }
             if(props.topGame.isPregnant !== undefined){
                 if(props.topGame.isPregnant === true){
@@ -281,8 +290,8 @@ const UsersGame = (props) => {
 
         if(isInEditor === true){
             return (
-            <Grid>
-            <Card style={{height: "400px", width: "300px", textAlign: "-webkit-center"}}>
+            <Grid style={{marginTop: "0rem"}}>
+            <Card style={{width: "300px", textAlign: "-webkit-center"}}>
             <form style={{margin: "1rem"}} >
             {flowController(returnBuckOnChangeValue, returnBassOnChangeValue(), returnDuckOnChangeValue())}
                 <ThemeProvider >
@@ -295,14 +304,14 @@ const UsersGame = (props) => {
                         
                     />
           
-                <TextField
+                {/* <TextField
                         label="comment"
                         variant="outlined"
                         id="mui-theme-provider-outlined-input"
                         name="comment"
                         onChange={onChangeComment}
                         
-                    />
+                    /> */}
                  <TextField
                         label="location; example: Chickasha, OK"
                         variant="outlined"
@@ -325,7 +334,7 @@ const UsersGame = (props) => {
             </form>
             </Card>
             <div>  <input type="submit" value="Submit" style={{marginRight: "1rem", marginTop: "1rem"}} onClick={() => handleSubmit(props.topGame.id)} />
-                              <a id="notRegistered" href='#' onClick={() => setToEditor(false)}> Back </a>
+                              <a id="notRegistered" href='#' style={{color: "white"}} onClick={() => setToEditor(false)}> Back </a>
               </div>
            
            
@@ -334,14 +343,20 @@ const UsersGame = (props) => {
         }
     }
 
+    function runTwoFunctions(data){
+        setSide(!isFront)
+        geocode(data)
+    }
 
+    //  <button onClick={() => geocode(props.topGame.address)}>re-geocode</button>
 
     return (
         <Grid>
-       
+              
             <Grid >
-            {isFront ? <Card style={{height: "auto", width: "95%", background: "content-box"}}>
-                             <img src={"http://127.0.0.1:8000"+props.topGame.image} alt="photo of your ducks" onClick={() => setSide(!isFront)} style={{width: "75%", height: "75%", maxHeight: "400px", maxWidth: "400px", marginTop: "1rem" , border: "groove"}} />
+          
+            {isFront ? <Card id="topTrophiesCard">
+                             <img src={"http://127.0.0.1:8000"+props.topGame.image} alt="photo of your ducks" onClick={() => runTwoFunctions(props.topGame.address)} style={{width: "75%", height: "75%", maxHeight: "400px", maxWidth: "400px", marginTop: "1rem" , border: "groove"}} />
                       </Card>   : 
                        <Card style={{fontSize: "4vw", width: "95%", height: "auto", marginTop: "1rem", background: "content-box"}}>
                            
@@ -351,8 +366,8 @@ const UsersGame = (props) => {
    
 
           </Grid>
+          
 
-           
         </Grid>
       
       

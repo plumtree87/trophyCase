@@ -16,7 +16,7 @@ const DisplayLittleBigFoot = (props) => {
 
    useEffect(() =>{
        console.log('Use Effect running')
-       console.log(props.trophyBigFoot)
+      
    });
 
 
@@ -37,7 +37,7 @@ const DisplayLittleBigFoot = (props) => {
     }
 
     async function geocode(props){
-        console.log(props, "props")
+     
         var location = props;
         let response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyC3CR7HFXvYhJDemaEE5f82ZvH7SUb8GDQ`)
      
@@ -74,7 +74,7 @@ const DisplayLittleBigFoot = (props) => {
   
       const renderMap = () => {
   
-        console.log(location)
+      
         
         loadScript(`https://maps.googleapis.com/maps/api/js?key=AIzaSyC3CR7HFXvYhJDemaEE5f82ZvH7SUb8GDQ&callback=initMap`)
         window.initMap = initMap
